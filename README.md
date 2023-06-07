@@ -6,3 +6,8 @@ Switchboard Solana Crate: https://github.com/switchboard-xyz/sbv2-solana
 Switchboard Docs: https://docs.switchboard.xyz/
 
 Solana Cookbook: https://solanacookbook.com/integrations/switchboard.html#switchboard
+
+### Task List
+1. TS Tests
+2. Native SOL/Lamports vs SOL Token
+3. Allow for long/short positions?
