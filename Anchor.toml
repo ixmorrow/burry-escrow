@@ -2,7 +2,7 @@
 seeds = false
 skip-lint = false
 [programs.localnet]
-burry_oracle_program = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+burry_oracle_program = "3yU8tgZeBoaTfcqReY6LeDQcekMAnQ1DiwKvmxKPUncb"
 
 [registry]
 url = "https://api.apr.dev"

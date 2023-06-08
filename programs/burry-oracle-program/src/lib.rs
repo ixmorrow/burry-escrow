@@ -3,7 +3,7 @@ use anchor_lang::solana_program::clock;
 use std::convert::TryInto;
 use switchboard_v2::{AggregatorAccountData, SwitchboardDecimal};
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("3yU8tgZeBoaTfcqReY6LeDQcekMAnQ1DiwKvmxKPUncb");
 
 #[program]
 mod burry_oracle_program {
@@ -111,6 +111,7 @@ pub struct Withdraw<'info> {
     pub user: Signer<'info>,
     // escrow account
     #[account(
+        mut,
         seeds = [user.key().as_ref(), ESCROW_SEED.as_bytes()],
         bump
     )]

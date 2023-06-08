@@ -8,13 +8,13 @@ import { safeAirdrop } from './utils/utils'
 import { userKeypair1, solUsedSwitchboardFeed, switchboardDevnetProgramID } from './TestKeypair/testKeypair'
 
 describe("burry-oracle-program", async () => {
-  // Configure the client to use the local cluster.
   anchor.setProvider(anchor.AnchorProvider.env())
 
   const program = anchor.workspace.BurryOracleProgram as Program<BurryOracleProgram>
   const provider = anchor.AnchorProvider.env()
 
   let user = userKeypair1
+
   const [escrowState] = await anchor.web3.PublicKey.findProgramAddressSync(
     [user.publicKey.toBuffer(), Buffer.from("MICHAEL BURRY")],
     program.programId
@@ -27,7 +27,7 @@ describe("burry-oracle-program", async () => {
 
     // Send transaction
     const amtInLamps = new anchor.BN(10)
-    const unlockPrice = new anchor.BN(30)
+    const unlockPrice = new anchor.BN(15)
 
     try {
       const tx = await program.methods.deposit(amtInLamps, unlockPrice)
@@ -39,6 +39,7 @@ describe("burry-oracle-program", async () => {
       .signers([user])
       .rpc()
 
+      await provider.connection.confirmTransaction(tx, "confirmed")
       console.log("Your transaction signature", tx)
 
       // Fetch the created account
@@ -46,7 +47,8 @@ describe("burry-oracle-program", async () => {
         escrowState
       )
 
-      console.log("On-chain data is:", newAccount.unlockPrice.toNumber())
+      console.log("On-chain unlock price:", newAccount.unlockPrice.toNumber())
+      console.log("Amount in escrow:", await provider.connection.getBalance(escrowState, "confirmed"))
 
       // Check whether the data on-chain is equal to local 'data'
       assert(unlockPrice.eq(newAccount.unlockPrice))
@@ -56,18 +58,29 @@ describe("burry-oracle-program", async () => {
   })
 
   it("Withdraw from Burry Escrow", async () => {
-    const program = await SwitchboardProgram.load(
+    const switchboardProgram = await SwitchboardProgram.load(
       "devnet",
       new anchor.web3.Connection("https://api.devnet.solana.com"),
       user
     )
 
-    const aggregatorAccount = new AggregatorAccount(program, solUsedSwitchboardFeed)
+    const aggregatorAccount = new AggregatorAccount(switchboardProgram, solUsedSwitchboardFeed)
 
-    const result: Big | null = await aggregatorAccount.fetchLatestValue()
-      if (result === null) {
-        throw new Error('Aggregator holds no value');
-      }
-      console.log(result.toString())
+    try {
+      const tx = await program.methods.withdraw({ maxConfidenceInterval: null })
+      .accounts({
+        user: user.publicKey,
+        escrowAccount: escrowState,
+        feedAggregator: aggregatorAccount.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId
+    })
+      .signers([user])
+      .rpc()
+
+      console.log("Your transaction signature", tx)
+
+    } catch (e) {
+      console.log(e)
+    }
   })
 })
