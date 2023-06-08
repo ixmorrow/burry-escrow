@@ -97,7 +97,7 @@ pub struct Deposit<'info> {
         seeds = [user.key().as_ref(), ESCROW_SEED.as_bytes()],
         bump,
         payer = user,
-        space = 8 + 8 + 1
+        space = 8 + 8 + 8 + 1
     )]
     pub escrow_account: Account<'info, EscrowState>,
     pub system_program: Program<'info, System>,
