@@ -113,7 +113,8 @@ pub struct Withdraw<'info> {
     #[account(
         mut,
         seeds = [user.key().as_ref(), ESCROW_SEED.as_bytes()],
-        bump
+        bump,
+        close = user
     )]
     pub escrow_account: Account<'info, EscrowState>,
     // Switchboard SOL feed aggregator
