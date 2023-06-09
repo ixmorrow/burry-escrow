@@ -8,8 +8,23 @@ burry_oracle_program = "3yU8tgZeBoaTfcqReY6LeDQcekMAnQ1DiwKvmxKPUncb"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "devnet"
+cluster = "localnet"
 wallet = "/home/ixmorrow/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+
+[test.validator]
+url="https://api.devnet.solana.com"
+
+[test]
+startup_wait = 10000
+
+[[test.validator.clone]] # sbv2 devnet programID
+address = "SW1TCH7qEPTdLsDHRgPuMQjbQxKdH2aBStViMFnt64f"
+
+[[test.validator.clone]] # sbv2 devnet IDL
+address = "Fi8vncGpNKbq62gPo56G4toCehWNy77GgqGkTaAF5Lkk"
+
+[[test.validator.clone]] # sbv2 SOL/USD Feed
+address="GvDMxPzN1sCj7L26YDK2HnMRXEQmQ2aemov8YBtPS7vR"

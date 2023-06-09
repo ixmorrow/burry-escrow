@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::clock;
 use std::convert::TryInto;
-use switchboard_v2::{AggregatorAccountData, SwitchboardDecimal};
+use switchboard_v2::{AggregatorAccountData, SwitchboardDecimal, SWITCHBOARD_PROGRAM_ID};
 
 declare_id!("3yU8tgZeBoaTfcqReY6LeDQcekMAnQ1DiwKvmxKPUncb");
 
@@ -56,31 +56,23 @@ mod burry_oracle_program {
         }
 
         msg!("Current feed result is {}!", val);
+        msg!("Unlock price is {}", escrow_state.unlock_price);
 
         if val < escrow_state.unlock_price as f64 {
             return Err(EscrowErrorCode::SolPriceAboveUnlockPrice.into())
         }
 
-        // program signer seeds
-        let auth_bump = ctx.accounts.escrow_account.bump;
-        let auth_seeds = &[ESCROW_SEED.as_bytes(), &[auth_bump]];
-        let signer = &[&auth_seeds[..]];
+        **escrow_state.to_account_info().try_borrow_mut_lamports()? = escrow_state
+            .to_account_info()
+            .lamports()
+            .checked_sub(escrow_state.escrow_amt)
+            .ok_or(ProgramError::InvalidArgument)?;
 
-        let transfer_ix = anchor_lang::solana_program::system_instruction::transfer(
-            &escrow_state.key(),
-            &ctx.accounts.user.key(),
-            escrow_state.escrow_amt
-        );
-
-        anchor_lang::solana_program::program::invoke_signed(
-            &transfer_ix,
-            &[
-                ctx.accounts.escrow_account.to_account_info(),
-                ctx.accounts.user.to_account_info(),
-                ctx.accounts.system_program.to_account_info()
-            ],
-            signer
-        )?;
+        **ctx.accounts.user.to_account_info().try_borrow_mut_lamports()? = ctx.accounts.user
+            .to_account_info()
+            .lamports()
+            .checked_add(escrow_state.escrow_amt)
+            .ok_or(ProgramError::InvalidArgument)?;
 
         Ok(())
     }
@@ -118,6 +110,7 @@ pub struct Withdraw<'info> {
     )]
     pub escrow_account: Account<'info, EscrowState>,
     // Switchboard SOL feed aggregator
+    #[account(owner = SWITCHBOARD_PROGRAM_ID)]
     pub feed_aggregator: AccountLoader<'info, AggregatorAccountData>,
     pub system_program: Program<'info, System>,
 }
