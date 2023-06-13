@@ -5,7 +5,7 @@ import { AggregatorAccount, SwitchboardProgram } from '@switchboard-xyz/solana.j
 import assert from "assert"
 import Big from 'big.js'
 import { safeAirdrop } from './utils/utils'
-import { userKeypair1, solUsedSwitchboardFeed, switchboardDevnetProgramID } from './TestKeypair/testKeypair'
+import { userKeypair1, solUsedSwitchboardFeed, switchboardDevnetProgramID, usdc_usdFeed } from './TestKeypair/testKeypair'
 
 describe("burry-oracle-program", async () => {
   anchor.setProvider(anchor.AnchorProvider.env())
@@ -160,6 +160,29 @@ describe("burry-oracle-program", async () => {
     } catch (e) {
       console.log(e)
       assert.fail(e)
+    }
+  })
+
+  it("Attempt to withdraw with incorrect Feed account", async () => {
+    // derive escrow address
+    const [user2EscrowState] = await anchor.web3.PublicKey.findProgramAddressSync(
+      [user2.publicKey.toBuffer(), Buffer.from("MICHAEL BURRY")],
+      program.programId
+    )
+
+    try {
+      const tx = await program.methods.withdraw({ maxConfidenceInterval: null })
+      .accounts({
+        user: user2.publicKey,
+        escrowAccount: user2EscrowState,
+        feedAggregator: usdc_usdFeed,
+        systemProgram: anchor.web3.SystemProgram.programId
+    })
+      .signers([user2])
+      .rpc()
+    } catch (e) {
+      console.log(e.error.errorMessage)
+      assert(e.error.errorMessage == 'An address constraint was violated')
     }
   })
 

@@ -13,3 +13,4 @@ export const userKeypair1 = anchor.web3.Keypair.fromSecretKey(Uint8Array.from(
 
 export const switchboardDevnetProgramID = new anchor.web3.PublicKey("SW1TCH7qEPTdLsDHRgPuMQjbQxKdH2aBStViMFnt64f")
 export const solUsedSwitchboardFeed = new anchor.web3.PublicKey("GvDMxPzN1sCj7L26YDK2HnMRXEQmQ2aemov8YBtPS7vR")
+export const usdc_usdFeed = new anchor.web3.PublicKey("BjUgj6YCnFBZ49wF54ddBVA9qu8TeqkFtkbqmZcee8uW")

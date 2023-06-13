@@ -2,6 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_lang::solana_program::clock;
 use std::convert::TryInto;
 use switchboard_v2::{AggregatorAccountData, SwitchboardDecimal, SWITCHBOARD_PROGRAM_ID};
+use solana_program::{pubkey, pubkey::Pubkey};
 
 declare_id!("3yU8tgZeBoaTfcqReY6LeDQcekMAnQ1DiwKvmxKPUncb");
 
@@ -110,7 +111,10 @@ pub struct Withdraw<'info> {
     )]
     pub escrow_account: Account<'info, EscrowState>,
     // Switchboard SOL feed aggregator
-    #[account(owner = SWITCHBOARD_PROGRAM_ID)]
+    #[account(
+        owner = SWITCHBOARD_PROGRAM_ID,
+        address = SOL_USDC_FEED
+    )]
     pub feed_aggregator: AccountLoader<'info, AggregatorAccountData>,
     pub system_program: Program<'info, System>,
 }
@@ -130,6 +134,8 @@ pub struct ReadResultParams {
 }
 
 pub const ESCROW_SEED: &str = "MICHAEL BURRY";
+pub static SOL_USDC_FEED: Pubkey = pubkey!("GvDMxPzN1sCj7L26YDK2HnMRXEQmQ2aemov8YBtPS7vR");
+
 
 #[error_code]
 #[derive(Eq, PartialEq)]
