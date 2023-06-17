@@ -45,10 +45,7 @@ mod burry_oracle_program {
 
         // get result
         let val: f64 = feed.get_result()?.try_into()?;
-
-        // check whether the feed has been updated in the last 300 seconds
-        feed.check_staleness(clock::Clock::get().unwrap().unix_timestamp, 300)
-        .map_err(|_| error!(EscrowErrorCode::StaleFeed))?;
+        let mut valid_transfer: bool = false;
 
         // check feed does not exceed max_confidence_interval
         if let Some(max_confidence_interval) = params.max_confidence_interval {
@@ -59,21 +56,26 @@ mod burry_oracle_program {
         msg!("Current feed result is {}!", val);
         msg!("Unlock price is {}", escrow_state.unlock_price);
 
-        if val < escrow_state.unlock_price as f64 {
-            return Err(EscrowErrorCode::SolPriceAboveUnlockPrice.into())
+        if val > escrow_state.unlock_price as f64 {
+            valid_transfer = true;
         }
+        else if (clock::Clock::get().unwrap().unix_timestamp - feed.latest_confirmed_round.round_open_timestamp) > 86400 {
+            valid_transfer = true;
+        }
+        
+        if valid_transfer{
+            **escrow_state.to_account_info().try_borrow_mut_lamports()? = escrow_state
+                .to_account_info()
+                .lamports()
+                .checked_sub(escrow_state.escrow_amt)
+                .ok_or(ProgramError::InvalidArgument)?;
 
-        **escrow_state.to_account_info().try_borrow_mut_lamports()? = escrow_state
-            .to_account_info()
-            .lamports()
-            .checked_sub(escrow_state.escrow_amt)
-            .ok_or(ProgramError::InvalidArgument)?;
-
-        **ctx.accounts.user.to_account_info().try_borrow_mut_lamports()? = ctx.accounts.user
-            .to_account_info()
-            .lamports()
-            .checked_add(escrow_state.escrow_amt)
-            .ok_or(ProgramError::InvalidArgument)?;
+            **ctx.accounts.user.to_account_info().try_borrow_mut_lamports()? = ctx.accounts.user
+                .to_account_info()
+                .lamports()
+                .checked_add(escrow_state.escrow_amt)
+                .ok_or(ProgramError::InvalidArgument)?;
+        }
 
         Ok(())
     }
