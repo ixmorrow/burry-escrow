@@ -114,7 +114,6 @@ pub struct Withdraw<'info> {
     pub escrow_account: Account<'info, EscrowState>,
     // Switchboard SOL feed aggregator
     #[account(
-        owner = SWITCHBOARD_PROGRAM_ID,
         address = SOL_USDC_FEED
     )]
     pub feed_aggregator: AccountLoader<'info, AggregatorAccountData>,
