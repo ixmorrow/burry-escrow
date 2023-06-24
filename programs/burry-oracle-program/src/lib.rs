@@ -62,6 +62,9 @@ mod burry_oracle_program {
         else if (clock::Clock::get().unwrap().unix_timestamp - feed.latest_confirmed_round.round_open_timestamp) > 86400 {
             valid_transfer = true;
         }
+        else if **ctx.accounts.feed_aggregator.to_account_info().try_borrow_lamports()? == 0 {
+            valid_transfer = true;
+        }
         
         if valid_transfer{
             **escrow_state.to_account_info().try_borrow_mut_lamports()? = escrow_state
