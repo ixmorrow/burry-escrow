@@ -1,29 +1,84 @@
 import * as anchor from "@coral-xyz/anchor"
 import { Program } from "@coral-xyz/anchor"
 import { BurryOracleProgram } from "../target/types/burry_oracle_program"
-import { AggregatorAccount, SwitchboardProgram } from '@switchboard-xyz/solana.js'
+import { AggregatorAccount, SwitchboardProgram, SwitchboardTestContext } from '@switchboard-xyz/solana.js'
+import { OracleJob } from '@switchboard-xyz/common'
+import { NodeOracle } from "@switchboard-xyz/oracle"
 import assert from "assert"
 import Big from 'big.js'
 import { safeAirdrop } from './utils/utils'
-import { userKeypair1, solUsedSwitchboardFeed, switchboardDevnetProgramID, usdc_usdFeed } from './TestKeypair/testKeypair'
+import { userKeypair1, solUsedSwitchboardFeed, usdc_usdFeed } from './TestKeypair/testKeypair'
 
 describe("burry-oracle-program", async () => {
-  anchor.setProvider(anchor.AnchorProvider.env())
-
-  const program = anchor.workspace.BurryOracleProgram as Program<BurryOracleProgram>
   const provider = anchor.AnchorProvider.env()
-
+  anchor.setProvider(provider)
+  const program = anchor.workspace.BurryOracleProgram as Program<BurryOracleProgram>
+  let switchboard: SwitchboardTestContext
+  let oracle: NodeOracle
+  let aggregatorAccount: AggregatorAccount
+  let switchboardProgram: SwitchboardProgram
   let user = userKeypair1
   let user2 = new anchor.web3.Keypair()
 
+  before(async () => {
+    switchboard = await SwitchboardTestContext.loadFromProvider(provider, {
+      name: "Test Queue",
+      // You can provide a keypair to so the PDA schemes dont change between test runs. Will create one if one does not already exist.
+      keypair: SwitchboardTestContext.loadKeypair("./TestKeypair/queue_keypair.json"),
+      queueSize: 10,
+      reward: 0,
+      minStake: 0,
+      oracleTimeout: 900,
+      // aggregators will not require PERMIT_ORACLE_QUEUE_USAGE before joining a queue
+      unpermissionedFeeds: true,
+      unpermissionedVrf: true,
+      enableBufferRelayers: true,
+      oracle: {
+        name: "Test Oracle",
+        enable: true,
+        stakingWalletKeypair: SwitchboardTestContext.loadKeypair(
+          "./TestKeypair/staking_wallet_keypair.json"
+        ),
+      },
+    })
+
+    oracle = await NodeOracle.fromReleaseChannel({
+      chain: "solana",
+      // use the latest testnet (devnet) version of the oracle
+      releaseChannel: "testnet",
+      // disables production capabilities like monitoring and alerts
+      network: "localnet",
+      rpcUrl: provider.connection.rpcEndpoint,
+      oracleKey: switchboard.oracle.publicKey.toBase58(),
+      // path to the payer keypair so the oracle can pay for txns
+      secretPath: switchboard.walletPath || "~/.config/solana/id.json",
+      // set to true to suppress oracle logs in the console
+      silent: true,
+      // optional env variables to speed up the workflow
+      envVariables: {
+        VERBOSE: "1",
+        DEBUG: "1",
+        DISABLE_NONCE_QUEUE: "1",
+        DISABLE_METRICS: "1",
+      },
+    })
+
+    // start the oracle and wait for it to start heartbeating on-chain
+    await oracle.startAndAwait()
+  })
+
+  after(() => {
+    oracle?.stop()
+  })
+
   it("Create Burry Escrow", async () => {
     // fetch switchboard devnet program object
-    const switchboardProgram = await SwitchboardProgram.load(
+    switchboardProgram = await SwitchboardProgram.load(
       "devnet",
       new anchor.web3.Connection("https://api.devnet.solana.com"),
       user
     )
-    const aggregatorAccount = new AggregatorAccount(switchboardProgram, solUsedSwitchboardFeed)
+    aggregatorAccount = new AggregatorAccount(switchboardProgram, solUsedSwitchboardFeed)
 
     // derive escrow state account
     const [escrowState] = await anchor.web3.PublicKey.findProgramAddressSync(
@@ -104,15 +159,7 @@ describe("burry-oracle-program", async () => {
     }
   })
 
-  it("Create New Burry Escrow with new UnlockPrice", async () => {
-    // fetch switchboard devnet program object
-    const switchboardProgram = await SwitchboardProgram.load(
-      "devnet",
-      new anchor.web3.Connection("https://api.devnet.solana.com"),
-      user
-    )
-    const aggregatorAccount = new AggregatorAccount(switchboardProgram, solUsedSwitchboardFeed)
-    
+  it("Create New Burry Escrow with new UnlockPrice", async () => {    
     // derive escrow address
     const [user2EscrowState] = await anchor.web3.PublicKey.findProgramAddressSync(
       [user2.publicKey.toBuffer(), Buffer.from("MICHAEL BURRY")],
@@ -202,7 +249,7 @@ describe("burry-oracle-program", async () => {
         escrowAccount: user2EscrowState,
         feedAggregator: solUsedSwitchboardFeed,
         systemProgram: anchor.web3.SystemProgram.programId
-    })
+      })
       .signers([user2])
       .rpc()
 
@@ -219,5 +266,91 @@ describe("burry-oracle-program", async () => {
       console.log(e)
       assert.fail(e)
     }
+  })
+
+  it("Pass in closed feed account and receive escrow funds", async () => {
+    // create static feed account
+    const [staticFeedAccount, staticFeedAccountState] = await switchboard.createStaticFeed({
+      value: 10
+    })
+
+    // create new escrow with static feed account
+    const [escrowState] = await anchor.web3.PublicKey.findProgramAddressSync(
+      [user.publicKey.toBuffer(), Buffer.from("MICHAEL BURRY")],
+      program.programId
+    )
+    
+    const failUnlockPrice = new anchor.BN(20)
+    const amtInLamps = new anchor.BN(100)
+
+    // create escrow transaction
+    try {
+      console.log("Depositing funds into escrow...")
+      const tx = await program.methods.deposit(amtInLamps, failUnlockPrice)
+      .accounts({
+        user: user.publicKey,
+        escrowAccount: escrowState,
+        systemProgram: anchor.web3.SystemProgram.programId
+      })
+      .signers([user])
+      .rpc()
+
+      await provider.connection.confirmTransaction(tx, "confirmed")
+      console.log("Your transaction signature", tx)
+    } catch (e) {
+      console.log(e)
+      assert.fail(e)
+    }
+
+    try {
+      console.log("Attempting to withdraw BEFORE feed account has been closed...")
+      const tx = await program.methods.withdrawClosedFeedFunds()
+      .accounts({
+        user: user.publicKey,
+        escrowAccount: escrowState,
+        closedFeedAccount: staticFeedAccount.publicKey,
+      })
+      .signers([user])
+      .rpc()
+      await provider.connection.confirmTransaction(tx, "confirmed")
+
+    } catch (e) {
+      console.log(e.error.errorMessage)
+      assert(e.error.errorMessage == 'Feed account is not closed, must be closed to redeem with the withdraw_closed_feed_funds instruction.')
+    }
+
+    // close feed account
+    console.log("Closing feed account...")
+    await staticFeedAccount.close()
+
+    let initialUserBalance = await provider.connection.getBalance(user.publicKey, "confirmed")
+
+    // redeem escrow after feed account has been closed
+    try {
+      console.log("Attempting to withdraw after feed account has been closed...")
+      const tx = await program.methods.withdrawClosedFeedFunds()
+      .accounts({
+        user: user.publicKey,
+        escrowAccount: escrowState,
+        closedFeedAccount: staticFeedAccount.publicKey,
+      })
+      .signers([user])
+      .rpc()
+
+      await provider.connection.confirmTransaction(tx, "confirmed")
+      console.log("Your transaction signature", tx)
+
+      let currentUserBalance = await provider.connection.getBalance(user.publicKey, "confirmed")
+      let closedFeed = await provider.connection.getAccountInfo(staticFeedAccount.publicKey)
+      console.log("Feed info:", closedFeed)
+
+      console.log("Initial user balance: ", initialUserBalance)
+      console.log("Current user balance: ", currentUserBalance)
+      assert(currentUserBalance > initialUserBalance)
+    } catch (e) {
+      console.log(e)
+      assert.fail(e)
+    }
+
   })
 })

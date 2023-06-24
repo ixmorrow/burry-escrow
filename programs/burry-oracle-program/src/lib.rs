@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::clock;
 use std::convert::TryInto;
-use switchboard_v2::{AggregatorAccountData, SwitchboardDecimal, SWITCHBOARD_PROGRAM_ID};
+use switchboard_v2::{AggregatorAccountData, SwitchboardDecimal};
 use solana_program::{pubkey, pubkey::Pubkey};
 
 declare_id!("3yU8tgZeBoaTfcqReY6LeDQcekMAnQ1DiwKvmxKPUncb");
@@ -82,6 +82,28 @@ mod burry_oracle_program {
 
         Ok(())
     }
+
+    pub fn withdraw_closed_feed_funds(ctx: Context<ClaimEscrowedFunds>) -> Result <()> {
+
+        let escrow_state = &ctx.accounts.escrow_account;
+        let user = &ctx.accounts.user;
+
+        msg!("Feed account lamports: {}", **ctx.accounts.closed_feed_account.try_borrow_lamports()?);
+
+        **escrow_state.to_account_info().try_borrow_mut_lamports()? = escrow_state
+            .to_account_info()
+            .lamports()
+            .checked_sub(escrow_state.escrow_amt)
+            .ok_or(ProgramError::InvalidArgument)?;
+
+        **user.to_account_info().try_borrow_mut_lamports()? = user
+            .to_account_info()
+            .lamports()
+            .checked_add(escrow_state.escrow_amt)
+            .ok_or(ProgramError::InvalidArgument)?;
+
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
@@ -123,6 +145,28 @@ pub struct Withdraw<'info> {
     pub system_program: Program<'info, System>,
 }
 
+#[derive(Accounts)]
+pub struct ClaimEscrowedFunds<'info> {
+     // user account
+    #[account(mut)]
+    pub user: Signer<'info>,
+    // escrow account
+    #[account(
+        mut,
+        seeds = [user.key().as_ref(), ESCROW_SEED.as_bytes()],
+        bump,
+        close = user
+    )]
+    pub escrow_account: Account<'info, EscrowState>,
+    /// CHECK: comment out the address=SOL_USDC_FEED to test this instruction
+    #[account(
+        address = SOL_USDC_FEED,
+        constraint = **closed_feed_account.to_account_info().try_borrow_lamports()? == 0
+        @ EscrowErrorCode::FeedAccountIsNotClosed
+    )]
+    pub closed_feed_account: AccountInfo<'info>
+}
+
 
 
 #[account]
@@ -152,4 +196,6 @@ pub enum EscrowErrorCode {
     ConfidenceIntervalExceeded,
     #[msg("Current SOL price is not above Escrow unlock price.")]
     SolPriceAboveUnlockPrice,
+    #[msg("Feed account is not closed, must be closed to redeem with the withdraw_closed_feed_funds instruction.")]
+    FeedAccountIsNotClosed
 }

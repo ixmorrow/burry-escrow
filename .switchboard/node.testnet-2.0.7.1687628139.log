@@ -1,0 +1,70 @@
+bigint: Failed to load bindings, pure JS will be used (try npm run rebuild?)
+
+{"timestamp":"2023-06-24T17:35:44.118Z","level":"debug","id":"TaskRunner","message":"No job configs found. Continuing.."}
+
+(node:7000) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+{"timestamp":"2023-06-24T17:35:44.122Z","level":"info","id":"HealthCheck","message":"health check server initialized at /healthz on PORT 8080"}
+
+{"timestamp":"2023-06-24T17:35:44.124Z","level":"info","id":"Environment","message":"TASK_RUNNER_SOLANA_RPC: https://api.mainnet-beta.solana.com"}
+
+{"timestamp":"2023-06-24T17:35:44.471Z","level":"debug","id":"Environment","message":"Verbose logging enabled"}
+
+{"timestamp":"2023-06-24T17:35:44.471Z","level":"info","id":"Environment","message":"@SWITCHBOARD-XYZ/COMMON: 2.1.45"}
+{"timestamp":"2023-06-24T17:35:44.471Z","level":"info","id":"Environment","message":"TASK_RUNNER_VERSION: 2.1.13"}
+{"timestamp":"2023-06-24T17:35:44.472Z","level":"info","id":"Environment","message":"ORACLE_VERSION: RC_05_10_23_17_30"}
+{"timestamp":"2023-06-24T17:35:44.472Z","level":"info","id":"Environment","message":"TASK_RUNNER_SOLANA_URL: https://api.mainnet-beta.solana.com"}
+{"timestamp":"2023-06-24T17:35:44.472Z","level":"info","id":"Environment","message":"CLUSTER: localnet"}
+{"timestamp":"2023-06-24T17:35:44.472Z","level":"info","id":"Environment","message":"RPC_URL: http://0.0.0.0:8899"}
+{"timestamp":"2023-06-24T17:35:44.472Z","level":"info","id":"Environment","message":"WS_URL: NOT_SET"}
+{"timestamp":"2023-06-24T17:35:44.472Z","level":"info","id":"Environment","message":"ORACLE_KEY: 2ij4bPt5iA78nqFVyRv2aguq9nhZtoPY6tzkeXQ99nAw"}
+
+{"timestamp":"2023-06-24T17:35:44.473Z","level":"info","id":"Environment","message":"SGX_ENABLED: false"}
+
+{"timestamp":"2023-06-24T17:35:44.482Z","level":"info","id":"Environment","message":"LOCALNET: true"}
+
+{"timestamp":"2023-06-24T17:35:44.484Z","level":"info","id":"Environment","message":"PAYER: 3UEpwqXyaQ5ph85H5pM3UxaPoSEybuED4R84d4rB1vDb"}
+
+{"timestamp":"2023-06-24T17:35:44.487Z","level":"info","id":"Environment","message":"PAYER_BALANCE: 499999999.96341604"}
+
+{"timestamp":"2023-06-24T17:35:44.728Z","level":"info","id":"oracle","message":"SolanaOracle starting ..."}
+
+{"timestamp":"2023-06-24T17:35:44.728Z","level":"info","id":"","message":"Heartbeat routine started with an interval of 30.000 seconds."}
+
+{"timestamp":"2023-06-24T17:35:44.729Z","level":"info","id":"Oracle","message":"Watching event: AggregatorOpenRoundEvent ..."}
+
+{"timestamp":"2023-06-24T17:35:44.733Z","level":"info","id":"Oracle","message":"Watching event: VrfRequestRandomnessEvent ..."}
+
+{"timestamp":"2023-06-24T17:35:44.734Z","level":"info","id":"Oracle","message":"Watching event: BufferRelayerOpenRoundEvent ..."}
+
+{"timestamp":"2023-06-24T17:35:44.775Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 61BtdX5u8ZRyv3iuPuhPfUbBhPrmzSkjhqvKaiatYmAuAH75ZUuaXfnEYAjo2oZ3caQvaqzhFybmMfdpczLH3cmo"}
+
+{"timestamp":"2023-06-24T17:35:44.779Z","level":"info","id":"HealthCheck","message":"health check handler started"}
+
+{"timestamp":"2023-06-24T17:35:44.779Z","level":"info","id":"EventLoopMonitor","message":"Using default performance monitoring"}
+
+{"timestamp":"2023-06-24T17:35:59.894Z","level":"info","id":"() 27sQyTnKAzKeoDVJ59CvVCRzCj5PDSHbcidwbEMCS3ry","message":"Responding to () 27sQyTnKAzKeoDVJ59CvVCRzCj5PDSHbcidwbEMCS3ry: 10; all: [10]"}
+
+{"timestamp":"2023-06-24T17:35:59.899Z","level":"error","id":"() 27sQyTnKAzKeoDVJ59CvVCRzCj5PDSHbcidwbEMCS3ry","message":"ERROR on () 27sQyTnKAzKeoDVJ59CvVCRzCj5PDSHbcidwbEMCS3ry, Error: account doesn't belong to this program\n    at Function.fetch (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:38803)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async Pg.loadData (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:184354)\n    at async /home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37810\n    at async Promise.all (index 0)\n    at async yl.loadCurrentRoundOracles (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37694)\n    at async callback (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1542:33076)"}
+
+Error: account doesn't belong to this program
+    at Function.fetch (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:38803)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async Pg.loadData (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:184354)
+    at async /home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37810
+    at async Promise.all (index 0)
+    at async yl.loadCurrentRoundOracles (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37694)
+    at async callback (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1542:33076)
+
+TypeError: Cannot read properties of undefined (reading 'then')
+    at callback (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1542:33372)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+
+{"timestamp":"2023-06-24T17:35:59.902Z","level":"warn","id":"() 27sQyTnKAzKeoDVJ59CvVCRzCj5PDSHbcidwbEMCS3ry","message":"[Error] Failed to fulfill transaction. Error: account doesn't belong to this program\n    at Function.fetch (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:38803)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async Pg.loadData (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:184354)\n    at async /home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37810\n    at async Promise.all (index 0)\n    at async yl.loadCurrentRoundOracles (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37694)\n    at async callback (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1542:33076)"}
+[31mUncaughtRejection for promise TypeError: Cannot read properties of undefined (reading 'then')[0m
+[32mNode NOT Exiting...[0m
+
+{"timestamp":"2023-06-24T17:36:00.367Z","level":"info","id":"() 27sQyTnKAzKeoDVJ59CvVCRzCj5PDSHbcidwbEMCS3ry","message":"Responding to () 27sQyTnKAzKeoDVJ59CvVCRzCj5PDSHbcidwbEMCS3ry: 10; all: [10]"}
+
+{"timestamp":"2023-06-24T17:36:00.392Z","level":"info","id":"() 27sQyTnKAzKeoDVJ59CvVCRzCj5PDSHbcidwbEMCS3ry","message":"save_result signature: McEF85KLW65eLBvcm9AEcC4jHNY2tPFp39E4K8u6BWjAsnnCyPkHNvLWZzsvJKuc6pkgYYnTqbaXhUPwC61iHLm"}

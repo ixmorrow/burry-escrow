@@ -1,0 +1,98 @@
+bigint: Failed to load bindings, pure JS will be used (try npm run rebuild?)
+
+{"timestamp":"2023-06-24T19:24:12.402Z","level":"debug","id":"TaskRunner","message":"No job configs found. Continuing.."}
+
+(node:17783) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+{"timestamp":"2023-06-24T19:24:12.411Z","level":"info","id":"HealthCheck","message":"health check server initialized at /healthz on PORT 8080"}
+
+{"timestamp":"2023-06-24T19:24:12.414Z","level":"info","id":"Environment","message":"TASK_RUNNER_SOLANA_RPC: https://api.mainnet-beta.solana.com"}
+
+{"timestamp":"2023-06-24T19:24:12.759Z","level":"debug","id":"Environment","message":"Verbose logging enabled"}
+
+{"timestamp":"2023-06-24T19:24:12.759Z","level":"info","id":"Environment","message":"@SWITCHBOARD-XYZ/COMMON: 2.1.45"}
+
+{"timestamp":"2023-06-24T19:24:12.759Z","level":"info","id":"Environment","message":"TASK_RUNNER_VERSION: 2.1.13"}
+
+{"timestamp":"2023-06-24T19:24:12.759Z","level":"info","id":"Environment","message":"ORACLE_VERSION: RC_05_10_23_17_30"}
+
+{"timestamp":"2023-06-24T19:24:12.760Z","level":"info","id":"Environment","message":"TASK_RUNNER_SOLANA_URL: https://api.mainnet-beta.solana.com"}
+
+{"timestamp":"2023-06-24T19:24:12.760Z","level":"info","id":"Environment","message":"CLUSTER: localnet"}
+
+{"timestamp":"2023-06-24T19:24:12.760Z","level":"info","id":"Environment","message":"RPC_URL: http://0.0.0.0:8899"}
+{"timestamp":"2023-06-24T19:24:12.760Z","level":"info","id":"Environment","message":"WS_URL: NOT_SET"}
+{"timestamp":"2023-06-24T19:24:12.760Z","level":"info","id":"Environment","message":"ORACLE_KEY: 2ij4bPt5iA78nqFVyRv2aguq9nhZtoPY6tzkeXQ99nAw"}
+{"timestamp":"2023-06-24T19:24:12.761Z","level":"info","id":"Environment","message":"SGX_ENABLED: false"}
+
+{"timestamp":"2023-06-24T19:24:12.767Z","level":"info","id":"Environment","message":"LOCALNET: true"}
+
+{"timestamp":"2023-06-24T19:24:12.769Z","level":"info","id":"Environment","message":"PAYER: 3UEpwqXyaQ5ph85H5pM3UxaPoSEybuED4R84d4rB1vDb"}
+
+{"timestamp":"2023-06-24T19:24:12.771Z","level":"info","id":"Environment","message":"PAYER_BALANCE: 499999999.96341604"}
+
+{"timestamp":"2023-06-24T19:24:13.031Z","level":"info","id":"oracle","message":"SolanaOracle starting ..."}
+
+{"timestamp":"2023-06-24T19:24:13.032Z","level":"info","id":"","message":"Heartbeat routine started with an interval of 30.000 seconds."}
+
+{"timestamp":"2023-06-24T19:24:13.033Z","level":"info","id":"Oracle","message":"Watching event: AggregatorOpenRoundEvent ..."}
+
+{"timestamp":"2023-06-24T19:24:13.036Z","level":"info","id":"Oracle","message":"Watching event: VrfRequestRandomnessEvent ..."}
+
+{"timestamp":"2023-06-24T19:24:13.036Z","level":"info","id":"Oracle","message":"Watching event: BufferRelayerOpenRoundEvent ..."}
+
+{"timestamp":"2023-06-24T19:24:13.059Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: K3f8YcgfS9dWzpph2KPvYZ7nLKiHYCqg1qk8uHaNrwxPKuFNTUFQS8jRMrGAnXHjBAw6SXy8spTkwx5FCkyn3aV"}
+
+{"timestamp":"2023-06-24T19:24:13.061Z","level":"info","id":"HealthCheck","message":"health check handler started"}
+
+{"timestamp":"2023-06-24T19:24:13.061Z","level":"info","id":"EventLoopMonitor","message":"Using default performance monitoring"}
+
+{"timestamp":"2023-06-24T19:24:15.045Z","level":"info","id":"() Dg8HMyXQcZGP4QmuMrooYyYcyBbGXaj8BZFyzuUpLCPY","message":"Responding to () Dg8HMyXQcZGP4QmuMrooYyYcyBbGXaj8BZFyzuUpLCPY: 10; all: [10]"}
+
+{"timestamp":"2023-06-24T19:24:15.047Z","level":"error","id":"() Dg8HMyXQcZGP4QmuMrooYyYcyBbGXaj8BZFyzuUpLCPY","message":"ERROR on () Dg8HMyXQcZGP4QmuMrooYyYcyBbGXaj8BZFyzuUpLCPY, Error: account doesn't belong to this program\n    at Function.fetch (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:38803)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async Pg.loadData (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:184354)\n    at async /home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37810\n    at async Promise.all (index 0)\n    at async yl.loadCurrentRoundOracles (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37694)\n    at async callback (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1542:33076)"}
+
+Error: account doesn't belong to this program
+    at Function.fetch (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:38803)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async Pg.loadData (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:184354)
+    at async /home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37810
+    at async Promise.all (index 0)
+    at async yl.loadCurrentRoundOracles (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37694)
+    at async callback (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1542:33076)
+
+{"timestamp":"2023-06-24T19:24:15.048Z","level":"warn","id":"() Dg8HMyXQcZGP4QmuMrooYyYcyBbGXaj8BZFyzuUpLCPY","message":"[Error] Failed to fulfill transaction. Error: account doesn't belong to this program\n    at Function.fetch (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:38803)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async Pg.loadData (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1529:184354)\n    at async /home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37810\n    at async Promise.all (index 0)\n    at async yl.loadCurrentRoundOracles (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1530:37694)\n    at async callback (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1542:33076)"}
+
+[31mUncaughtRejection for promise TypeError: Cannot read properties of undefined (reading 'then')[0m
+
+TypeError: Cannot read properties of undefined (reading 'then')
+    at callback (/home/ixmorrow/.cache/@switchboard-xyz/sbv2-oracle/testnet-2.0.7/index.js:1542:33372)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+
+[32mNode NOT Exiting...[0m
+
+{"timestamp":"2023-06-24T19:24:15.468Z","level":"info","id":"() Dg8HMyXQcZGP4QmuMrooYyYcyBbGXaj8BZFyzuUpLCPY","message":"Responding to () Dg8HMyXQcZGP4QmuMrooYyYcyBbGXaj8BZFyzuUpLCPY: 10; all: [10]"}
+
+{"timestamp":"2023-06-24T19:24:15.487Z","level":"info","id":"() Dg8HMyXQcZGP4QmuMrooYyYcyBbGXaj8BZFyzuUpLCPY","message":"save_result signature: 4QvDnYLGRpLsYwp9tCp8RR7T5F4Cajt1FYzUoXMoDda6VoQdAEAbFSUsCxhEkVBTJTubvKV4pc9HYV2yZCLqhQkp"}
+
+{"timestamp":"2023-06-24T19:24:43.071Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3ZZVDiepGmBWiX7LxVXFaNTgMWX7J4H7fMk5SaKm3ZvB5ycqbbKKhYFEGQgo6hYLCXN22pCgjzHccxBiYvg25JbT"}
+
+{"timestamp":"2023-06-24T19:25:13.088Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: mBmde2kuvutUhqU9MddoCC2yR3XEcdK8uxYJcXGtCP2P21aFkv7eXkPwjhzn1vE8rjBqWu7J1jGAUz6RoxvH3zg"}
+
+{"timestamp":"2023-06-24T19:25:43.105Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3xfufgmTWv242yw8RbF8xKiuCq1WpfF3vw3je6ahQVdAXYjoWd2we8mcfMLeNLWZiD6Tp1NTgNtkiPevFiZspLtS"}
+
+{"timestamp":"2023-06-24T19:26:13.118Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: p4nETzLw9W8Ra4MuGwu3Cf32Vb3Bi45UH8ggcmRm3No6rchbvL2PnoHTfv4QVH5ET5hKj31zZJcadoaALBkjL3i"}
+
+{"timestamp":"2023-06-24T19:26:43.131Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2QwBcz3EeaFuRtsweMtEng4GAbzkYqtqRhbCKxd8jimYcaEVmeTWStT2bXYzwMqwFRtmkqKrda2crTJdYz5M7Foz"}
+
+{"timestamp":"2023-06-24T19:27:13.157Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2L3P9TcB7mg7pQ7WKFT1S5nrRrU3XaFoWvbmHAbKuJD6yFkZ4q5ktrvUfnp9tgRr649poLkPd5x1E9RXP5gL2c2j"}
+
+{"timestamp":"2023-06-24T19:27:43.170Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4uJDie6pAok8iAouoif3dkYaACHVA36UptdF6wpzFzSaFvqDCkbExvLMkSH4eBRPRiyqaFRAAk1FeATFnzwnGg4y"}
+
+{"timestamp":"2023-06-24T19:28:13.191Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: Pa9q33sixh2muYm9Hb89pS7MvmmGLmQJ3JigCps1oj4peXavgnKrwTPHtM2yt32Mw8RVq8PEq59fmwSNx52RR1W"}
+
+{"timestamp":"2023-06-24T19:28:43.206Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4duZKCMuBJzsmHEfFn35Q7CBUof5nGp5cY5pyHk499q3BrJzaCcGtJ7Uqy44s5YLg9jsdWyZoG3tzmFar7qoPB2S"}
+
+{"timestamp":"2023-06-24T19:29:13.219Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2GYqdMKuB8mYHHjHzgzsaRmEgvVeU1kBZ9dha8JeRFYbrAUcE4KzYAs7dYeHQcD9hxikXUxjwfeu9SR1UwebbPwg"}
+
+{"timestamp":"2023-06-24T19:29:43.247Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2g658yBforHZ2atYcYPbkuNPc4cNRi1oAWgnHYau4kJibPCz7JjYY4n23Kco6s4cQ9DDhfTayi2b4g17RxrwVnjM"}
