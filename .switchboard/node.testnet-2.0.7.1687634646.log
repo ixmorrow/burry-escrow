@@ -96,3 +96,113 @@ TypeError: Cannot read properties of undefined (reading 'then')
 {"timestamp":"2023-06-24T19:29:13.219Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2GYqdMKuB8mYHHjHzgzsaRmEgvVeU1kBZ9dha8JeRFYbrAUcE4KzYAs7dYeHQcD9hxikXUxjwfeu9SR1UwebbPwg"}
 
 {"timestamp":"2023-06-24T19:29:43.247Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2g658yBforHZ2atYcYPbkuNPc4cNRi1oAWgnHYau4kJibPCz7JjYY4n23Kco6s4cQ9DDhfTayi2b4g17RxrwVnjM"}
+
+{"timestamp":"2023-06-24T19:30:13.271Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 1wUjjJACLGFQQezvQrxmV7Mpt3jEAwzZVhAkEsm3QyWPFe47eJUZXK1qPK7ShJQxs3bysR2Ko3PfMmfin3Ffjdj"}
+
+{"timestamp":"2023-06-24T19:30:43.284Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2rNrX2XY25ENqrvKLjK8BU8do5yHffr16a3uoGpdfbc115LdBXguce9PTTAbsKnVKUNznm4o1KMaf3DagDcGP543"}
+
+{"timestamp":"2023-06-24T19:31:13.305Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3Z2Vn4HdQe9esTJDcxjSRCmne7TPz4caA8Q2gciGppa13vUTYKgj5UzW5YixwCT6CbWZzAWCZF1EiLMra3j4y8ke"}
+
+{"timestamp":"2023-06-24T19:31:43.320Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3AANzVVV8ndH4noC1wTjXfK628zvWPUyvex4aytwAa6qA4KTyEVQYwPgz4dabjoNu95LSFw5XE6VxwanjeFgRQMQ"}
+
+{"timestamp":"2023-06-24T19:32:13.332Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4r9RX7nb36g1TKqc7HTw1qt3DchrCf8TjUJi2XWC2W192PkZ7pC9yRZ92XJbqDrvyk6KYNUBxAWqdSvHiQaWm64M"}
+
+{"timestamp":"2023-06-24T19:32:43.347Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 56ma7HpfsX94xn18LXXmdKKTJCYhU5zVzzCTLsB28D85uE95E9rBe4Mb2CvJBT6vvN7Syvxeh7bNdcjZNN5Zsyh4"}
+
+{"timestamp":"2023-06-24T19:33:13.359Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4gh58uHWJ8HwooAtMj4pFkGG2vjrrGDxfzQsyYFYgtiJXKXT2zbsUhvCJrjFV1dRGiFUihZNqYiz8byT124otYpG"}
+
+{"timestamp":"2023-06-24T19:33:43.376Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 5NNg2yNTkct5xkHddGn8Cg5ixnqoCbTuaVDwwtbaRD4B42d3pboRzj2Jg4dD2TUxjYCAXBifxFEf2B6djjFNkeoR"}
+
+{"timestamp":"2023-06-24T19:34:13.389Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2HuZegwSLYDm8MVbHSwBQu1d1hxxPy3BTouzb7FecVDVm87SvZY62rPiY6nJPo8N8JqdfruFkhBdP9cYTurEnunB"}
+
+{"timestamp":"2023-06-24T19:34:43.402Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4rDttdMFcaPwTT6CXyHVizKHWmJGnk87biPxG9MMCdSQdZHYCggLaRkWNgM1ZufueDciZpuBwwBSvJdQDv45ra2T"}
+
+{"timestamp":"2023-06-24T19:35:13.431Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 64ced9mQeD7gSXp76UN8hK6a7mZuBoa757mdTPNt4VXu7Xfd3VJ72LWVdKQFGccFG8UarWdNBLs3oJ24Vwr8kU5J"}
+
+{"timestamp":"2023-06-24T19:35:43.459Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 7ZhcL2LTkXgqNyjFM8RrJeZxeUPuWBfdQ4AdEbBpEWLSpo6aQtcSBbz9Ku6CdH3cKPmhrKMpND7RHSuC3DTLaFV"}
+
+{"timestamp":"2023-06-24T19:36:13.472Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3s5G7duugFSxyjuBLRAY2JJyT9cxxeM5Bcv64DTrktMPYbyHfLrFUEAyH1rXuNqFEgCWnMK89z6Hwvi3yGgcZigQ"}
+
+{"timestamp":"2023-06-24T19:36:43.485Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2mGtKRz5JYgawJgKELNLKiybLwmzHcR3KWgRoEJbZECRKB2AgKADEc1wawCcQJPh9YFcXgHKoSztQ5jphfBZdiDf"}
+
+{"timestamp":"2023-06-24T19:37:13.496Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2QW7UqsU1JsAtEVVNzRwEcumYJq75PmeEEXyf39gwX9gsNQ9xjprL1rpNLWNezXUss36KWu4dt7YFPnffuXaZHJS"}
+
+{"timestamp":"2023-06-24T19:37:43.508Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4ZJgynL86NbSApQM1oW2BHKLn28tMLvApaLkQjggCjHWu4iJq4c1rH5G2MCV4SPVaHW9ukSWCmAdgSyakcxidg8X"}
+
+{"timestamp":"2023-06-24T19:38:13.520Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2DdpCeA44iP5evPf5dXwDJwhvhZ1xPvQmt3TEcRRqQLBcWyD5pNPryJC1Vs93o835Dmk4n1e2hkX8VTc7H8Q7YDs"}
+
+{"timestamp":"2023-06-24T19:38:43.533Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4ihxvGvs7CGmNkuzVRRbBBHbW9HWe6vq7mES7qaJ2BGwd1Dwyj9evdonDJr9xPY3LfVJqW9LLkx1fcag2hKzYfxK"}
+
+{"timestamp":"2023-06-24T19:39:13.546Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3Z6uA7gNQffCVV81na1hTkuS9WhZWB5EzSibcHwtehNphKjrdoWBzQErF2e64KKGPpafwGH7xnccH5krz9HUzYaV"}
+
+{"timestamp":"2023-06-24T19:39:43.570Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: T9jHc5YWseZa8VV2DpKR3rc8um71Dyd9S1bDrbjyA1RVpxfdvu7LtzzJSf3xMwdnuYMDKiJFKDwih2Muy79mvZy"}
+
+{"timestamp":"2023-06-24T19:40:13.584Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4JAGvMWeAAUnYrkh8VApya7n58sY3apE4M2tM4JgEGXMNmEMRmrWKhnYVx5j49HJ9aucGkTNwnrBiPfiwBip23xE"}
+
+{"timestamp":"2023-06-24T19:40:43.595Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 5iNNoihdWx2WVbNUdKczRQgWno7xt2Di6ztgFt1j2rvBaw68VL5BKUQQdBoYLiYF3KxNxt7yNBZr26rhC49pPYER"}
+
+{"timestamp":"2023-06-24T19:41:13.608Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3DwXEskx3KwFG5w3ttofbfiS3D9mqKamgH6D5NHBAWA9hu5ymaGcw9rpPDrU2kRKBEYLqw3Ncbnn6PZHB8EHnL36"}
+
+{"timestamp":"2023-06-24T19:41:43.640Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: DcaLALa38PqkMFMdCmgAW2uXwsVnt6aFuKwycWHWUGbmk6aU3jYj9fQDYE9Sp5uM7eu2GembxCKdmL9DkQmSVi5"}
+
+{"timestamp":"2023-06-24T19:42:13.664Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2boW3bfJ5T4C7JbR6nzZYeb5HZT5tE1pv644vzt2T5acSewu6wCHx1wiNEMWeGVyrV9DMCsra1PhkpnbyAqrKb1T"}
+
+{"timestamp":"2023-06-24T19:42:43.677Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3ApRMG1kqJUjfuNbvK4cxNSgHpcPTFECTXvuhqzKhXXyFYXGpRQ7V5kBEwXAN8ytFfiLxECArraujwxCiLVbE4y7"}
+
+{"timestamp":"2023-06-24T19:43:13.689Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 5R7tQKocSYupEMkLAAkbSVzvwDa7FKkARV8E3aUJty9ggpUxtexuqZzLeKWjjhWJHLa4i1T2jTB8s6Ws78G5EDJN"}
+
+{"timestamp":"2023-06-24T19:43:43.700Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: H3hHgjtx82tA1KDDhYSKTbxbAgNapRaLhbEL6vYh1ERvLL1LqxdT6AqHv2p685ZSBdvMoDaqjyVi8bW5st1hgXX"}
+
+{"timestamp":"2023-06-24T19:44:13.714Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 44FxPxHrDrgcygGfWA5WWkKqWzUqgwT9jr3PQt5seXdXcStx4VQdngZMi7jaZ8X3i2KYEyDezJQi5eomHvrdGxkQ"}
+
+{"timestamp":"2023-06-24T19:44:43.726Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 62K714DaEzb1PDDRxW1DNeedS1sgWTqP9sWq7ZtRJTB5Po5WthKBjnvXBRupUdi8inq9kDDD1WUyoAmcYt3ghicc"}
+
+{"timestamp":"2023-06-24T19:45:13.738Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 5E7sJGdu6B1xsxU5crnPJhigFnXM2KjpspGXSHwmccN7nN8FgR6NFdYmYCdy1ikUNR2cNj9PanSWdD8p7Lf1vs6G"}
+
+{"timestamp":"2023-06-24T19:45:43.750Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 55vUdMiNXjkoW1SsXxvjC3SS7YjmjM2YksJGx87gUEVziVEX5XLZPHjG3E7qG8tXgweLZ7T5UNzDgTVmd6piG41R"}
+
+{"timestamp":"2023-06-24T19:46:13.763Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2tAEWNuLDty3GWnjczCJP9Zp7acJa5h2BSyTWtTi1MuyJATHGqKmAhgzw5gKWzXWMgLr12EYPn97JkJe5mUKPomh"}
+
+{"timestamp":"2023-06-24T19:46:43.773Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 5x9Rev2KqucQZjs65rAZioF3A85seEdVqv6RX96fmk4pwZEtLq2SqsSSw6s4jxaPwpupF57SBeCv6igWoSdsWigB"}
+
+{"timestamp":"2023-06-24T19:47:13.786Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3w5HmmpxMcUg783vb4XBW6SEVxHpyjsREPfNsuJdZDa57yhSXoeGNyjJRfdC8jAdvhw7Hg7yk7qDahd3DZUawRB4"}
+
+{"timestamp":"2023-06-24T19:47:43.810Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4XEKEQ3fWgcdnkTj6C5YxvJPz88FMhBVdPQGrRfR4QCNuyoRZRCCMyTfn13LkpJwoMH1M3YZ5idUg3zjpoXyvcxd"}
+
+{"timestamp":"2023-06-24T19:48:13.824Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4BiWPD8qtTsGqMV17EmnKjgVuY4xk2znoeepvL4EmCVp5USKF457rPf8inUDJQHhhPDXXo9GD5NSLSRkVNiLu1XB"}
+
+{"timestamp":"2023-06-24T19:48:43.851Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: HHbvNbGmHH4dWxinYn7e4Fi2MJKk7iaMAB3FniuQrGgD3N1eXF7mDV91HYuNCyD5pwYPXL2LLjtGAPaKRVBHtFD"}
+
+{"timestamp":"2023-06-24T19:49:13.871Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2RjaWy1xS1HJmQ83Yu5csj1fmuQ9Zg4YcaPJeYDAdThsMXnmkhM9R6abw5mhGLTpNseF8Zxqd3nZrca6qKws32Yh"}
+
+{"timestamp":"2023-06-24T19:49:43.884Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4S8iDjyoyeezztBRJYscGLUdqKxqPshfrGXaug95ksxDCCu1aMwBKYAK9EsJ89Dxqcfp45dCX5ZLuYTZqajRBjxM"}
+
+{"timestamp":"2023-06-24T19:50:13.899Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4NFVMB2DW2xu5Ltfbj1W9iYZRVERtAzXVFU7VsNynTo1vHJigjN4YSwNZd5jt7rq3q9Xpok6XFGU8p45eGGHAsNs"}
+
+{"timestamp":"2023-06-24T19:50:43.913Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 5HRGpWBmgZSPREkwiuCpD5MB9NF7dUDzNrUUVnyMwYAMCT25UueWoVuJscAuPZKghahUzrwESGKZ5UEnpuBEu3zf"}
+
+{"timestamp":"2023-06-24T19:51:13.928Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3SzMNFUPGiDrizfUfJk4G95vwdhm64Uw4Ge4K2EYGCU5G6ZonmuaCTbg9Hd6UFdJwA1uBDeohGd7Rb1jzmKBzhPW"}
+
+{"timestamp":"2023-06-24T19:51:43.952Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: G5pVJxcHbBmvcWF1EWcN5DgoAcrMPi8HoMu3vMdQhin5q72k2cG8ebstsr1Tdz8vtWmop48WnFNZUPjn2BKqkwV"}
+
+{"timestamp":"2023-06-24T19:52:13.967Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4RYEgmKdUe9HPdHtDkd2JrkeDEk4zGeRmnDhDk6fawW9vejpQZTKgX69iQCmnzsQJ9jb1CjJkqwjXjbbwS4WDyQb"}
+
+{"timestamp":"2023-06-24T19:52:43.982Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4W9zjtyQ5xYwRSe5xu3ei9egWAiRV8icVz3cA1gs5NmrtMygtavw3BStinwqm8aPeFpAPrAvv2D1YhBdGVs6e48q"}
+
+{"timestamp":"2023-06-24T19:53:13.996Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4Ceoarc8UQJEMqVZoYfxJJM23pjk5cDG2djMW4EqJyGVo47XUF5Fwgu59tPa3G8Z7qiaVYJf9gA6xnGPxt8VAtqz"}
+
+{"timestamp":"2023-06-24T19:53:44.015Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 5XnbvEuVsArqqGaNH18HkiHyJizpheTu6KwjmWUE5nynhDEhs8iT6EW1Zs9tFX31C96ws1TyYyLbwDVfebsTYnTM"}
+
+{"timestamp":"2023-06-24T19:54:14.032Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3kQR7ZbVnD1k8wkjPoAAhK5XpEMqq7Nq3ojocPpnEp2vMckn6krCG8Zmfrwe3x1A3oeC5H9VdUo2CBsAE6PYgiHP"}
+
+{"timestamp":"2023-06-24T19:54:44.047Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3m5R8RXwAxBDMBX4F9GevK9TJSWTTtxrJZQ6dWz1EZyfwq6my6QhFXYvgzZ4vrL5yCMXvKSuKjg1y2WwBZt2hbvG"}
+
+{"timestamp":"2023-06-24T19:55:14.064Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3R4348dQfNiofjXb54gJUetHvrxgsuMPpUr8mnX7y3N1brTHSAX1SBg3x9pjeoc5YM5duqETgx4AQ3wc6fN8mFRo"}
+
+{"timestamp":"2023-06-24T19:55:44.079Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 4Qm4UR2zcKhtQKe6Lvg6JM5r89PA265LznX8YGpYntcbHWm9PSZfV9BZY115aPHtwh1dPsqPXYVYDt4m2c4Zk639"}
+
+{"timestamp":"2023-06-24T19:56:14.094Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 3jSUd1hwgoUQ6tDoou5GzmktFKpHJxeNPNbcg9UDDNC4jwGGbSBcbisBrbPjSYMtq6d47eH2Wkf6cX9Za7obv6U8"}
+
+{"timestamp":"2023-06-24T19:56:44.112Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 2V29cgmeddtJzApPKWV6yyZDGThgiEAmKSJdVDJ6teybYhw7TdSYsBbEC8MX48gLVTifyQ3kLXByNTyYg8JRQ6wY"}
+
+{"timestamp":"2023-06-24T19:57:14.130Z","level":"debug","id":"Heartbeat","message":"HeartbeatSignature: 5dV8JD4obLNGLvSB29oxnZcSuFh5GUuaQChrDnvHauzwwQTCjNKPcx4K5X2a9S1y5R1SqLXY1cqYuTUF1pA8XEy5"}

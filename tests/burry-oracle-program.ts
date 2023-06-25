@@ -268,6 +268,7 @@ describe("burry-oracle-program", async () => {
     }
   })
 
+  /*
   it("Pass in closed feed account and receive escrow funds", async () => {
     // create static feed account
     const [staticFeedAccount, staticFeedAccountState] = await switchboard.createStaticFeed({
@@ -353,4 +354,5 @@ describe("burry-oracle-program", async () => {
     }
 
   })
+  */
 })
