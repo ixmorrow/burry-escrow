@@ -443,15 +443,34 @@ describe("burry-oracle-program", async () => {
 
     const [payerTokenWallet] = await switchboard.program.mint.getOrCreateWrappedUser(
       switchboard.program.walletPubkey,
-      { fundUpTo: 0.002 }
+      { fundUpTo: 1.0 }
     );
+
+    // initialize vrf client
+    try {
+      const tx = await program.methods.initVrfClient(
+        {maxResult: new anchor.BN(3)}
+      )
+      .accounts({
+        user: payer.publicKey,
+        escrowAccount: escrowState,
+        vrfState: vrfClientKey,
+        vrf: vrfAccount.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId
+      })
+      .signers([payer])
+      .rpc()
+      
+    } catch (e) {
+      console.log(e)
+      assert.fail()
+    }
 
     let rolledSnakeEyes = true
     while(rolledSnakeEyes){
       try {
-        // Create VRF Client account and request randomness
+        // Request randomness and roll dice
         const tx = await program.methods.getOutOfJailRandom(
-          {maxResult: new anchor.BN(3)},
           {switchboardStateBump: switchboard.program.programState.bump, permissionBump}
           )
         .accounts({
@@ -508,6 +527,94 @@ describe("burry-oracle-program", async () => {
     } catch (e) {
       console.log(e.error.errorMessage)
       assert(e.error.errorMessage == 'Invalid withdrawal request')
+    }
+  })
+
+  it('Roll until Snake Eyes and withdraw funds', async () => {
+    // create new escrow with feed account
+    const [escrowState] = await anchor.web3.PublicKey.findProgramAddressSync(
+      [payer.publicKey.toBuffer(), Buffer.from("MICHAEL BURRY")],
+      program.programId
+    )
+
+    const [payerTokenWallet] = await switchboard.program.mint.getOrCreateWrappedUser(
+      switchboard.program.walletPubkey,
+      { fundUpTo: 0.002 }
+    )
+
+    const queue = await switchboard.queue.loadData();
+
+    // derive the existing VRF permission account using the seeds
+    const [permissionAccount, permissionBump] = PermissionAccount.fromSeed(
+      switchboard.program,
+      queue.authority,
+      switchboard.queue.publicKey,
+      vrfAccount.publicKey
+    )
+
+    // vrf data
+    const vrf = await vrfAccount.loadData();
+    await safeAirdrop(payer.publicKey, provider.connection)
+
+    let rolledSnakeEyes = false
+    while(!rolledSnakeEyes){
+      try {
+        // Request randomness and roll dice
+        const tx = await program.methods.getOutOfJailRandom(
+          {switchboardStateBump: switchboard.program.programState.bump, permissionBump}
+          )
+        .accounts({
+          vrfState: vrfClientKey,
+          vrf: vrfAccount.publicKey,
+          user: payer.publicKey,
+          payerWallet: payerTokenWallet,
+          escrowAccount: escrowState,
+          oracleQueue: switchboard.queue.publicKey,
+          queueAuthority: queue.authority,
+          dataBuffer: queue.dataBuffer,
+          permission: permissionAccount.publicKey,
+          switchboardEscrow: vrf.escrow,
+          programState: switchboard.program.programState.publicKey,
+          switchboardProgram: switchboard.program.programId,
+          recentBlockhashes: anchor.web3.SYSVAR_RECENT_BLOCKHASHES_PUBKEY,
+          tokenProgram: anchor.utils.token.TOKEN_PROGRAM_ID,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([payer])
+        .rpc()
+
+        await provider.connection.confirmTransaction(tx, "confirmed")
+
+        // wait a few sec for switchboard to generate the random number and invoke callback ix
+        await delay(5000)
+
+        let vrfState = await program.account.vrfClientState.fetch(vrfClientKey)
+        console.log("Roll results - Die 1:", vrfState.dieResult1.toNumber(), "Die 2:", vrfState.dieResult2.toNumber())
+        if(vrfState.dieResult1.toNumber() == vrfState.dieResult2.toNumber()){
+          rolledSnakeEyes = true
+        }
+      } catch (e) {
+        console.log(e)
+        assert.fail()
+      }
+    }
+
+    // attempt to withdraw once you roll snake eyes
+    try{
+      const tx = await program.methods.withdraw({ maxConfidenceInterval: null })
+        .accounts({
+          user: payer.publicKey,
+          escrowAccount: escrowState,
+          feedAggregator: aggregatorAccount.publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId
+        })
+        .signers([payer])
+        .rpc()
+      await provider.connection.confirmTransaction(tx, "confirmed")
+
+    } catch (e) {
+      console.log(e)
+      assert.fail()
     }
   })
 })

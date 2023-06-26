@@ -35,8 +35,12 @@ mod burry_oracle_program {
         withdraw_closed_feed::handler(ctx)
     }
 
-    pub fn get_out_of_jail_random(ctx: Context<RequestRandomness>, vrf_params: InitVrfClientParams, request_params: RequestRandomnessParams) -> Result<()> {
-        get_out_of_jail::handler(ctx, vrf_params, request_params)
+    pub fn init_vrf_client(ctx: Context<InitVrfClient>, vrf_params: InitVrfClientParams) -> Result <()> {
+        init_vrf_client::handler(ctx, vrf_params)
+    }
+
+    pub fn get_out_of_jail_random(ctx: Context<RequestRandomness>, request_params: RequestRandomnessParams) -> Result<()> {
+        get_out_of_jail::handler(ctx, request_params)
     }
 
     // vrf callback instruction

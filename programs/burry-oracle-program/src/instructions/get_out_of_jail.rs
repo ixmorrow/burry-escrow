@@ -1,36 +1,12 @@
 use crate::*;
 
-pub fn handler(ctx: Context<RequestRandomness>, vrf_params: InitVrfClientParams, request_params: RequestRandomnessParams) -> Result <()> {
-    msg!("init_client validate");
-    if vrf_params.max_result > 3 {
-        return Err(error!(EscrowErrorCode::MaxResultExceedsMaximum));
-    }
-
-    let mut vrf_state = ctx.accounts.vrf_state.load_init()?;
-    *vrf_state = VrfClientState::default();
-    vrf_state.bump = ctx.bumps.get("vrf_state").unwrap().clone();
-    vrf_state.vrf = ctx.accounts.vrf.key();
-    vrf_state.escrow = ctx.accounts.escrow_account.key();
-    vrf_state.die_result_1 = 0;
-    vrf_state.die_result_2 = 0;
-
-    if vrf_params.max_result == 0 {
-        vrf_state.max_result = 3;
-    } else {
-        vrf_state.max_result = vrf_params.max_result;
-    }
-
-    emit!(VrfClientCreated{
-        vrf_client: ctx.accounts.vrf_state.key(),
-        max_result: vrf_params.max_result,
-        timestamp: clock::Clock::get().unwrap().unix_timestamp
-    });
-
+pub fn handler(ctx: Context<RequestRandomness>, request_params: RequestRandomnessParams) -> Result <()> {
+    let switchboard_program = ctx.accounts.switchboard_program.to_account_info();
+    let vrf_state = ctx.accounts.vrf_state.load()?;
+    
     let bump = vrf_state.bump.clone();
     let max_result = vrf_state.max_result;
     drop(vrf_state);
-
-    let switchboard_program = ctx.accounts.switchboard_program.to_account_info();
 
     let vrf_request_randomness = VrfRequestRandomness {
         authority: ctx.accounts.vrf_state.to_account_info(),
@@ -78,10 +54,7 @@ pub fn handler(ctx: Context<RequestRandomness>, vrf_params: InitVrfClientParams,
 }
 
 #[derive(Accounts)]
-#[instruction(
-    vrf_params: InitVrfClientParams,
-    request_params: RequestRandomnessParams
-)]
+#[instruction(request_params: RequestRandomnessParams)]
 pub struct RequestRandomness<'info> {
     // PAYER ACCOUNTS
     #[account(mut)]
@@ -101,15 +74,13 @@ pub struct RequestRandomness<'info> {
     pub escrow_account: Account<'info, EscrowState>,
     // vrf client state
     #[account(
-        init,
+        mut,
         seeds = [
             user.key.as_ref(),
             escrow_account.key().as_ref(),
             vrf.key().as_ref(),
             VRF_STATE_SEED
         ],
-        payer = user,
-        space = 8 + std::mem::size_of::<VrfClientState>(),
         bump
     )]
     pub vrf_state: AccountLoader<'info, VrfClientState>,
