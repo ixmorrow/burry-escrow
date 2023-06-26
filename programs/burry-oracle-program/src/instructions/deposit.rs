@@ -7,6 +7,7 @@ pub fn handler(ctx: Context<Deposit>, escrow_amt: u64, unlock_price: u64) -> Res
         escrow_state.unlock_price = unlock_price;
         escrow_state.escrow_amt = escrow_amt;
         escrow_state.bump = *ctx.bumps.get("escrow_account").unwrap();
+        escrow_state.out_of_jail = false;
 
 
         let transfer_ix = anchor_lang::solana_program::system_instruction::transfer(
@@ -40,7 +41,7 @@ pub struct Deposit<'info> {
         seeds = [user.key().as_ref(), ESCROW_SEED.as_bytes()],
         bump,
         payer = user,
-        space = 8 + 8 + 8 + 1
+        space = 8 + std::mem::size_of::<EscrowState>(),
     )]
     pub escrow_account: Account<'info, EscrowState>,
     pub system_program: Program<'info, System>,

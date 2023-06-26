@@ -4,7 +4,7 @@ pub mod errors;
 
 pub use {
     anchor_lang::prelude::*,
-    anchor_lang::solana_program::{pubkey::Pubkey, clock},
+    anchor_lang::solana_program::{pubkey::Pubkey, pubkey, clock},
     switchboard_v2::{AggregatorAccountData, SwitchboardDecimal, VrfAccountData,
         OracleQueueAccountData, PermissionAccountData, SbState, VrfRequestRandomness
     },

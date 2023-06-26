@@ -449,7 +449,7 @@ describe("burry-oracle-program", async () => {
     try {
       // Create VRF Client account and request randomness
       const tx = await program.methods.getOutOfJailRandom(
-        {maxResult: new anchor.BN(1337)},
+        {maxResult: new anchor.BN(3)},
         {switchboardStateBump: switchboard.program.programState.bump, permissionBump}
         )
       .accounts({

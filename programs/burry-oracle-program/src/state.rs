@@ -5,7 +5,8 @@ use crate::*;
 pub struct EscrowState {
     pub unlock_price: u64,
     pub escrow_amt: u64,
-    pub bump: u8
+    pub bump: u8,
+    pub out_of_jail: bool
 }
 
 #[repr(packed)]
@@ -15,7 +16,9 @@ pub struct VrfClientState {
     pub bump: u8,
     pub max_result: u64,
     pub result_buffer: [u8; 32],
-    pub result: u128,
+    pub die_result_1: u128,
+    pub die_result_2: u128,
+    pub roll_total: u128,
     pub timestamp: i64,
     pub vrf: Pubkey,
     pub escrow: Pubkey
@@ -62,6 +65,8 @@ pub struct VrfClientUpdated {
     pub vrf_client: Pubkey,
     pub max_result: u64,
     pub result_buffer: [u8; 32],
-    pub result: u128,
+    pub die_result_1: u128,
+    pub die_result_2: u128,
+    pub roll_total: u128,
     pub timestamp: i64,
 }

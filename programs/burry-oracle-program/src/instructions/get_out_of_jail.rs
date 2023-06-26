@@ -2,7 +2,7 @@ use crate::*;
 
 pub fn handler(ctx: Context<RequestRandomness>, vrf_params: InitVrfClientParams, request_params: RequestRandomnessParams) -> Result <()> {
     msg!("init_client validate");
-    if vrf_params.max_result > 1337 {
+    if vrf_params.max_result > 3 {
         return Err(error!(EscrowErrorCode::MaxResultExceedsMaximum));
     }
 
@@ -11,10 +11,11 @@ pub fn handler(ctx: Context<RequestRandomness>, vrf_params: InitVrfClientParams,
     vrf_state.bump = ctx.bumps.get("vrf_state").unwrap().clone();
     vrf_state.vrf = ctx.accounts.vrf.key();
     vrf_state.escrow = ctx.accounts.escrow_account.key();
-    vrf_state.result = 0;
+    vrf_state.die_result_1 = 0;
+    vrf_state.die_result_2 = 0;
 
     if vrf_params.max_result == 0 {
-        vrf_state.max_result = 1337;
+        vrf_state.max_result = 3;
     } else {
         vrf_state.max_result = vrf_params.max_result;
     }

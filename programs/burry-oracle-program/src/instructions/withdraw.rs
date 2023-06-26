@@ -26,6 +26,9 @@ pub fn handler(ctx: Context<Withdraw>, params: ReadResultParams) -> Result<()> {
     else if **ctx.accounts.feed_aggregator.to_account_info().try_borrow_lamports()? == 0 {
         valid_transfer = true;
     }
+    else if escrow_state.out_of_jail {
+        valid_transfer = true;
+    }
     
     if valid_transfer{
         **escrow_state.to_account_info().try_borrow_mut_lamports()? = escrow_state

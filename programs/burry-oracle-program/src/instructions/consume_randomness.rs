@@ -21,23 +21,38 @@ pub fn handler(ctx: Context<ConsumeRandomness>) -> Result <()> {
     msg!("Result buffer is {:?}", result_buffer);
     let value: &[u128] = bytemuck::cast_slice(&result_buffer[..]);
     msg!("u128 buffer {:?}", value);
-    let result = value[0] % max_result as u128 + 1;
-    msg!("Current VRF Value [1 - {}) = {}!", max_result, result);
+    let dice_1 = value[0] % max_result as u128 + 1;
+    let dice_2 = value[1] % max_result as u128 + 1;
+    // let result = value[0] % max_result as u128 + 1;
+    // msg!("Current VRF Value [1 - {}) = {}!", max_result, result);
+    msg!("Current Die 1 Value [1 - {}) = {}!", max_result, dice_1);
+    msg!("Current Die 2 Value [1 - {}) = {}!", max_result, dice_2);
+    msg!("Roll total: {}", dice_1 + dice_2);
 
-    if vrf_state.result != result {
-        msg!("Updating VRF State with random value...");
-        vrf_state.result_buffer = result_buffer;
-        vrf_state.result = result;
-        vrf_state.timestamp = clock::Clock::get().unwrap().unix_timestamp;
 
-        emit!(VrfClientUpdated {
-            vrf_client: ctx.accounts.vrf_state.key(),
-            max_result: vrf_state.max_result,
-            result: vrf_state.result,
-            result_buffer: result_buffer,
-            timestamp: vrf_state.timestamp,
-        });
+    msg!("Updating VRF State with random value...");
+    vrf_state.result_buffer = result_buffer;
+    vrf_state.die_result_1 = dice_1;
+    vrf_state.die_result_2 = dice_2;
+    vrf_state.timestamp = clock::Clock::get().unwrap().unix_timestamp;
+    vrf_state.roll_total = dice_1 + dice_2;
+
+    emit!(VrfClientUpdated {
+        vrf_client: ctx.accounts.vrf_state.key(),
+        max_result: vrf_state.max_result,
+        die_result_1: vrf_state.die_result_1,
+        die_result_2: vrf_state.die_result_2,
+        roll_total: vrf_state.roll_total,
+        result_buffer: result_buffer,
+        timestamp: vrf_state.timestamp,
+    });
+
+    if dice_1 == dice_2 {
+        msg!("Rolled snake eyes, get out of jail free!");
+        let escrow_state = &mut ctx.accounts.escrow_account;
+        escrow_state.out_of_jail = true;
     }
+
 
     Ok(())
 }
