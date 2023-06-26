@@ -1,7 +1,7 @@
 import * as anchor from "@coral-xyz/anchor"
 import { Program } from "@coral-xyz/anchor"
 import { BurryOracleProgram } from "../target/types/burry_oracle_program"
-import { AggregatorAccount, SwitchboardProgram, SwitchboardTestContext } from '@switchboard-xyz/solana.js'
+import { AggregatorAccount, SwitchboardProgram, SwitchboardTestContext, Callback, VrfAccount, PermissionAccount, AnchorWallet } from '@switchboard-xyz/solana.js'
 import { OracleJob } from '@switchboard-xyz/common'
 import { NodeOracle } from "@switchboard-xyz/oracle"
 import assert from "assert"
@@ -17,8 +17,14 @@ describe("burry-oracle-program", async () => {
   let oracle: NodeOracle
   let aggregatorAccount: AggregatorAccount
   let switchboardProgram: SwitchboardProgram
+  let vrfAccount: VrfAccount;
+  let vrfClientKey: anchor.web3.PublicKey
+  const vrfSecret = anchor.web3.Keypair.generate()
+  const vrfIxCoder = new anchor.BorshInstructionCoder(program.idl)
   let user = userKeypair1
   let user2 = new anchor.web3.Keypair()
+  const payer = (provider.wallet as AnchorWallet).payer
+
 
   before(async () => {
     switchboard = await SwitchboardTestContext.loadFromProvider(provider, {
@@ -355,4 +361,123 @@ describe("burry-oracle-program", async () => {
 
   })
   */
+
+  it("Get out of jail", async () => {
+    // create new escrow with feed account
+    const [escrowState] = await anchor.web3.PublicKey.findProgramAddressSync(
+      [payer.publicKey.toBuffer(), Buffer.from("MICHAEL BURRY")],
+      program.programId
+    )
+
+     // fetch latest SOL price
+    const solPrice: Big | null = await aggregatorAccount.fetchLatestValue()
+    if (solPrice === null) {
+      throw new Error('Aggregator holds no value')
+    }
+    const failUnlockPrice = new anchor.BN(solPrice.plus(10).toNumber())
+    const amtInLamps = new anchor.BN(100)
+
+    // Send transaction to open escrow
+    try {
+      const tx = await program.methods.deposit(amtInLamps, failUnlockPrice)
+      .accounts({
+        user: payer.publicKey,
+        escrowAccount: escrowState,
+        systemProgram: anchor.web3.SystemProgram.programId
+      })
+      .signers([payer])
+      .rpc()
+
+      await provider.connection.confirmTransaction(tx, "confirmed")
+      console.log("Created escrow.")
+    } catch (e) {
+      console.log(e)
+      assert.fail(e)
+    }
+
+    [vrfClientKey] = anchor.web3.PublicKey.findProgramAddressSync(
+      [
+        payer.publicKey.toBytes(),
+        escrowState.toBytes(),
+        vrfSecret.publicKey.toBytes(),
+        Buffer.from("VRFCLIENT")
+      ],
+      program.programId
+    )
+    console.log(`VRF Client: ${vrfClientKey}`)
+
+    const vrfClientCallback: Callback = {
+      programId: program.programId,
+      accounts: [
+        // ensure all accounts in consumeRandomness are populated
+        // { pubkey: payer.publicKey, isSigner: false, isWritable: true },
+        { pubkey: escrowState, isSigner: false, isWritable: true },
+        { pubkey: vrfClientKey, isSigner: false, isWritable: true },
+        { pubkey: vrfSecret.publicKey, isSigner: false, isWritable: true },
+      ],
+      ixData: vrfIxCoder.encode("consumeRandomness", ""), // pass any params for instruction here
+    }
+
+    const queue = await switchboard.queue.loadData();
+
+    // Create Switchboard VRF and Permission account
+    [vrfAccount] = await switchboard.queue.createVrf({
+      callback: vrfClientCallback,
+      authority: vrfClientKey, // vrf authority
+      vrfKeypair: vrfSecret,
+      enable: !queue.unpermissionedVrfEnabled, // only set permissions if required
+    })
+
+    // vrf data
+    const vrf = await vrfAccount.loadData();
+
+    console.log(`Created VRF Account: ${vrfAccount.publicKey}`)
+
+    // derive the existing VRF permission account using the seeds
+    const [permissionAccount, permissionBump] = PermissionAccount.fromSeed(
+      switchboard.program,
+      queue.authority,
+      switchboard.queue.publicKey,
+      vrfAccount.publicKey
+    )
+
+    const [payerTokenWallet] = await switchboard.program.mint.getOrCreateWrappedUser(
+      switchboard.program.walletPubkey,
+      { fundUpTo: 0.002 }
+    );
+
+    try {
+      // Create VRF Client account and request randomness
+      const tx = await program.methods.getOutOfJailRandom(
+        {maxResult: new anchor.BN(1337)},
+        {switchboardStateBump: switchboard.program.programState.bump, permissionBump}
+        )
+      .accounts({
+        vrfState: vrfClientKey,
+        vrf: vrfAccount.publicKey,
+        user: payer.publicKey,
+        payerWallet: payerTokenWallet,
+        escrowAccount: escrowState,
+        oracleQueue: switchboard.queue.publicKey,
+        queueAuthority: queue.authority,
+        dataBuffer: queue.dataBuffer,
+        permission: permissionAccount.publicKey,
+        switchboardEscrow: vrf.escrow,
+        programState: switchboard.program.programState.publicKey,
+        switchboardProgram: switchboard.program.programId,
+        recentBlockhashes: anchor.web3.SYSVAR_RECENT_BLOCKHASHES_PUBKEY,
+        tokenProgram: anchor.utils.token.TOKEN_PROGRAM_ID,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([payer])
+      .rpc()
+
+      await provider.connection.confirmTransaction(tx, "confirmed")
+      console.log(`Created VrfClient Account: ${vrfClientKey}`)
+
+    } catch (e) {
+      console.log(e)
+      assert.fail()
+    }
+  })
 })

@@ -2,7 +2,19 @@ pub mod instructions;
 pub mod state;
 pub mod errors;
 
-use {anchor_lang::prelude::*, instructions::*, state::*};
+pub use {
+    anchor_lang::prelude::*,
+    anchor_lang::solana_program::{pubkey::Pubkey, clock},
+    switchboard_v2::{AggregatorAccountData, SwitchboardDecimal, VrfAccountData,
+        OracleQueueAccountData, PermissionAccountData, SbState, VrfRequestRandomness
+    },
+    anchor_spl::token::{Token, TokenAccount},
+    std::convert::TryInto,
+    state::*,
+    instructions::*,
+    errors::*,
+    bytemuck::*
+};
 
 
 declare_id!("3yU8tgZeBoaTfcqReY6LeDQcekMAnQ1DiwKvmxKPUncb");
@@ -21,5 +33,14 @@ mod burry_oracle_program {
 
     pub fn withdraw_closed_feed_funds(ctx: Context<ClaimEscrowedFunds>) -> Result <()> {
         withdraw_closed_feed::handler(ctx)
+    }
+
+    pub fn get_out_of_jail_random(ctx: Context<RequestRandomness>, vrf_params: InitVrfClientParams, request_params: RequestRandomnessParams) -> Result<()> {
+        get_out_of_jail::handler(ctx, vrf_params, request_params)
+    }
+
+    // vrf callback instruction
+    pub fn consume_randomness(ctx:Context<ConsumeRandomness>) -> Result<()> {
+        consume_randomness::handler(ctx)
     }
 }

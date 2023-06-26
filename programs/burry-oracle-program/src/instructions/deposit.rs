@@ -1,8 +1,4 @@
-use {
-    crate::{state::*},
-    anchor_lang::prelude::*,
-    solana_program::{pubkey::Pubkey}
-};
+use crate::*;
 
 pub fn handler(ctx: Context<Deposit>, escrow_amt: u64, unlock_price: u64) -> Result<()> {
     msg!("Depositing funds in escrow...");

@@ -405,6 +405,7 @@ version = "0.1.0"
 dependencies = [
  "anchor-lang",
  "anchor-spl",
+ "bytemuck",
  "getrandom 0.2.10",
  "solana-program",
  "switchboard-v2",
