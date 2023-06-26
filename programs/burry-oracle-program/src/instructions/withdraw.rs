@@ -42,6 +42,8 @@ pub fn handler(ctx: Context<Withdraw>, params: ReadResultParams) -> Result<()> {
             .lamports()
             .checked_add(escrow_state.escrow_amt)
             .ok_or(ProgramError::InvalidArgument)?;
+    } else {
+        return Err(error!(EscrowErrorCode::InvalidWithdrawalRequest));
     }
 
     Ok(())

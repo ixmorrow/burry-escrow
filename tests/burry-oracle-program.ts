@@ -6,7 +6,7 @@ import { OracleJob } from '@switchboard-xyz/common'
 import { NodeOracle } from "@switchboard-xyz/oracle"
 import assert from "assert"
 import Big from 'big.js'
-import { safeAirdrop } from './utils/utils'
+import { safeAirdrop, delay } from './utils/utils'
 import { userKeypair1, solUsedSwitchboardFeed, usdc_usdFeed } from './TestKeypair/testKeypair'
 
 describe("burry-oracle-program", async () => {
@@ -161,7 +161,7 @@ describe("burry-oracle-program", async () => {
     } catch (e) {
       // verify tx returns expected error
       console.log(e.error.errorMessage)
-      assert(e.error.errorMessage == 'Current SOL price is not above Escrow unlock price.')
+      assert(e.error.errorMessage == 'Invalid withdrawal request')
     }
   })
 
@@ -362,7 +362,7 @@ describe("burry-oracle-program", async () => {
   })
   */
 
-  it("Get out of jail", async () => {
+  it("Attempt to get out of jail and withdraw without rolling snake eyes", async () => {
     // create new escrow with feed account
     const [escrowState] = await anchor.web3.PublicKey.findProgramAddressSync(
       [payer.publicKey.toBuffer(), Buffer.from("MICHAEL BURRY")],
@@ -446,38 +446,68 @@ describe("burry-oracle-program", async () => {
       { fundUpTo: 0.002 }
     );
 
-    try {
-      // Create VRF Client account and request randomness
-      const tx = await program.methods.getOutOfJailRandom(
-        {maxResult: new anchor.BN(3)},
-        {switchboardStateBump: switchboard.program.programState.bump, permissionBump}
-        )
-      .accounts({
-        vrfState: vrfClientKey,
-        vrf: vrfAccount.publicKey,
-        user: payer.publicKey,
-        payerWallet: payerTokenWallet,
-        escrowAccount: escrowState,
-        oracleQueue: switchboard.queue.publicKey,
-        queueAuthority: queue.authority,
-        dataBuffer: queue.dataBuffer,
-        permission: permissionAccount.publicKey,
-        switchboardEscrow: vrf.escrow,
-        programState: switchboard.program.programState.publicKey,
-        switchboardProgram: switchboard.program.programId,
-        recentBlockhashes: anchor.web3.SYSVAR_RECENT_BLOCKHASHES_PUBKEY,
-        tokenProgram: anchor.utils.token.TOKEN_PROGRAM_ID,
-        systemProgram: anchor.web3.SystemProgram.programId,
-      })
-      .signers([payer])
-      .rpc()
+    let rolledSnakeEyes = true
+    while(rolledSnakeEyes){
+      try {
+        // Create VRF Client account and request randomness
+        const tx = await program.methods.getOutOfJailRandom(
+          {maxResult: new anchor.BN(3)},
+          {switchboardStateBump: switchboard.program.programState.bump, permissionBump}
+          )
+        .accounts({
+          vrfState: vrfClientKey,
+          vrf: vrfAccount.publicKey,
+          user: payer.publicKey,
+          payerWallet: payerTokenWallet,
+          escrowAccount: escrowState,
+          oracleQueue: switchboard.queue.publicKey,
+          queueAuthority: queue.authority,
+          dataBuffer: queue.dataBuffer,
+          permission: permissionAccount.publicKey,
+          switchboardEscrow: vrf.escrow,
+          programState: switchboard.program.programState.publicKey,
+          switchboardProgram: switchboard.program.programId,
+          recentBlockhashes: anchor.web3.SYSVAR_RECENT_BLOCKHASHES_PUBKEY,
+          tokenProgram: anchor.utils.token.TOKEN_PROGRAM_ID,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([payer])
+        .rpc()
 
+        await provider.connection.confirmTransaction(tx, "confirmed")
+        console.log(`Created VrfClient Account: ${vrfClientKey}`)
+
+        // wait a few sec for switchboard to generate the random number and invoke callback ix
+        await delay(5000)
+
+        let vrfState = await program.account.vrfClientState.fetch(vrfClientKey)
+        console.log("Roll results - Die 1:", vrfState.dieResult1.toNumber(), "Die 2:", vrfState.dieResult2.toNumber())
+        if(vrfState.dieResult1.toNumber() != vrfState.dieResult2.toNumber()){
+          rolledSnakeEyes = false
+        }
+
+      } catch (e) {
+        console.log(e)
+        assert.fail()
+      }
+    }
+
+    // attempt to withdraw when random roll is not snake eyes
+    try{
+      const tx = await program.methods.withdraw({ maxConfidenceInterval: null })
+        .accounts({
+          user: payer.publicKey,
+          escrowAccount: escrowState,
+          feedAggregator: aggregatorAccount.publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId
+        })
+        .signers([payer])
+        .rpc()
       await provider.connection.confirmTransaction(tx, "confirmed")
-      console.log(`Created VrfClient Account: ${vrfClientKey}`)
 
     } catch (e) {
-      console.log(e)
-      assert.fail()
+      console.log(e.error.errorMessage)
+      assert(e.error.errorMessage == 'Invalid withdrawal request')
     }
   })
 })

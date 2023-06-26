@@ -12,3 +12,7 @@ export async function safeAirdrop(address: PublicKey, connection: Connection) {
         console.log("Airdropped SOL!")
     }
 }
+
+export function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}

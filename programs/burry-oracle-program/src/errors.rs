@@ -19,4 +19,6 @@ pub enum EscrowErrorCode {
     InvalidVrfAccount,
     #[msg("Not a valid Switchboard account")]
     InvalidSwitchboardAccount,
+    #[msg("Invalid withdrawal request")]
+    InvalidWithdrawalRequest,
 }
