@@ -2,10 +2,15 @@ use crate::*;
 
 pub fn handler(ctx: Context<RequestRandomness>, request_params: RequestRandomnessParams) -> Result <()> {
     let switchboard_program = ctx.accounts.switchboard_program.to_account_info();
-    let vrf_state = ctx.accounts.vrf_state.load()?;
+    let mut vrf_state = ctx.accounts.vrf_state.load_mut()?;
+
+    if vrf_state.num_rolls == 3 {
+        return Err(error!(EscrowErrorCode::MaxDiceRolls))
+    }
     
     let bump = vrf_state.bump.clone();
     let max_result = vrf_state.max_result;
+    vrf_state.num_rolls += 1;
     drop(vrf_state);
 
     let vrf_request_randomness = VrfRequestRandomness {

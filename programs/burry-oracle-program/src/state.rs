@@ -21,7 +21,8 @@ pub struct VrfClientState {
     pub roll_total: u128,
     pub timestamp: i64,
     pub vrf: Pubkey,
-    pub escrow: Pubkey
+    pub escrow: Pubkey,
+    pub num_rolls: u8
 }
 
 // input params
@@ -43,6 +44,7 @@ pub struct RequestRandomnessParams {
 
 pub const ESCROW_SEED: &str = "MICHAEL BURRY";
 pub const VRF_STATE_SEED: &[u8] = b"VRFCLIENT";
+pub const VAULT_SEED: &str = "PROGRAM VAULT SEED";
 pub static SOL_USDC_FEED: Pubkey = pubkey!("GvDMxPzN1sCj7L26YDK2HnMRXEQmQ2aemov8YBtPS7vR");
 
 // events

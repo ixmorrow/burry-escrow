@@ -21,4 +21,6 @@ pub enum EscrowErrorCode {
     InvalidSwitchboardAccount,
     #[msg("Invalid withdrawal request")]
     InvalidWithdrawalRequest,
+    #[msg("Hit max number of rolls allowed. Can pay 50 lamports to force withdraw.")]
+    MaxDiceRolls
 }

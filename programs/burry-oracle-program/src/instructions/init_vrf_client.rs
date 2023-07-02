@@ -13,6 +13,7 @@ pub fn handler(ctx: Context<InitVrfClient>, vrf_params: InitVrfClientParams) -> 
     vrf_state.escrow = ctx.accounts.escrow_account.key();
     vrf_state.die_result_1 = 0;
     vrf_state.die_result_2 = 0;
+    vrf_state.num_rolls = 0;
 
     if vrf_params.max_result == 0 {
         vrf_state.max_result = 3;

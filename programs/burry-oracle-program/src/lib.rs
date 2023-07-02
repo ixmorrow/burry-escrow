@@ -44,7 +44,11 @@ mod burry_oracle_program {
     }
 
     // vrf callback instruction
-    pub fn consume_randomness(ctx:Context<ConsumeRandomness>) -> Result<()> {
+    pub fn consume_randomness(ctx: Context<ConsumeRandomness>) -> Result<()> {
         consume_randomness::handler(ctx)
+    }
+
+    pub fn paid_withdraw(ctx: Context<PaidWithdraw>) -> Result<()> {
+        paid_withdraw::handler(ctx)
     }
 }
