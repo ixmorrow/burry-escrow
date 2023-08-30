@@ -27,26 +27,6 @@ describe("burry-oracle-program", async () => {
 
 
   before(async () => {
-    // switchboard = await SwitchboardTestContext.loadFromProvider(provider, {
-    //   name: "Test Queue",
-    //   // You can provide a keypair to so the PDA schemes dont change between test runs. Will create one if one does not already exist.
-    //   keypair: SwitchboardTestContext.loadKeypair("./TestKeypair/queue_keypair.json"),
-    //   queueSize: 10,
-    //   reward: 0,
-    //   minStake: 0,
-    //   oracleTimeout: 900,
-    //   // aggregators will not require PERMIT_ORACLE_QUEUE_USAGE before joining a queue
-    //   unpermissionedFeeds: true,
-    //   unpermissionedVrf: true,
-    //   enableBufferRelayers: true,
-    //   oracle: {
-    //     name: "Test Oracle",
-    //     enable: true,
-    //     stakingWalletKeypair: SwitchboardTestContext.loadKeypair(
-    //       "./TestKeypair/staking_wallet_keypair.json"
-    //     ),
-    //   },
-    // })
     switchboard = await SwitchboardTestContext.loadFromProvider(provider, {
       name: "Test Queue",
       // You can provide a keypair to so the PDA schemes dont change between test runs
@@ -68,28 +48,6 @@ describe("burry-oracle-program", async () => {
       },
     })
 
-    // oracle = await NodeOracle.fromReleaseChannel({
-    //   chain: "solana",
-    //   // use the latest testnet (devnet) version of the oracle
-    //   releaseChannel: "testnet",
-    //   // disables production capabilities like monitoring and alerts
-    //   network: "localnet",
-    //   rpcUrl: provider.connection.rpcEndpoint,
-    //   oracleKey: switchboard.oracle.publicKey.toBase58(),
-    //   // path to the payer keypair so the oracle can pay for txns
-    //   secretPath: switchboard.walletPath || "~/.config/solana/id.json",
-    //   // set to true to suppress oracle logs in the console
-    //   silent: true,
-    //   // optional env variables to speed up the workflow
-    //   envVariables: {
-    //     VERBOSE: "1",
-    //     DEBUG: "1",
-    //     DISABLE_NONCE_QUEUE: "1",
-    //     DISABLE_METRICS: "1",
-    //   },
-    // })
-
-    // update
     oracle = await NodeOracle.fromReleaseChannel({
       chain: "solana",
       // use the latest testnet (devnet) version of the oracle
