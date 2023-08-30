@@ -23,7 +23,7 @@ describe("burry-oracle-program", async () => {
   before(async () => {
     switchboard = await SwitchboardTestContext.loadFromProvider(provider, {
       name: "Test Queue",
-      // You can provide a keypair to so the PDA schemes dont change between test runs. Will create one if one does not already exist.
+      // You can provide a keypair to so the PDA schemes dont change between test runs
       keypair: SwitchboardTestContext.loadKeypair("./TestKeypair/queue_keypair.json"),
       queueSize: 10,
       reward: 0,
@@ -53,7 +53,7 @@ describe("burry-oracle-program", async () => {
       // path to the payer keypair so the oracle can pay for txns
       secretPath: switchboard.walletPath || "~/.config/solana/id.json",
       // set to true to suppress oracle logs in the console
-      silent: true,
+      silent: false,
       // optional env variables to speed up the workflow
       envVariables: {
         VERBOSE: "1",
