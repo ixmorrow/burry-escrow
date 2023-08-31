@@ -37,3 +37,6 @@ address = "CyZuD7RPDcrqCGbNvLCyqk6Py9cEZTKmNKujfPi3ynDd"
 
 [[test.validator.clone]] # sb SOL/USD Feed
 address="GvDMxPzN1sCj7L26YDK2HnMRXEQmQ2aemov8YBtPS7vR"
+
+[[test.validator.clone]] # sb USDC/USD Feed
+address="BjUgj6YCnFBZ49wF54ddBVA9qu8TeqkFtkbqmZcee8uW"
