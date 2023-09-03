@@ -31,11 +31,6 @@ pub struct ReadResultParams {
 }
 
 #[derive(Clone, AnchorSerialize, AnchorDeserialize)]
-pub struct InitVrfClientParams {
-    pub max_result: u64,
-}
-
-#[derive(Clone, AnchorSerialize, AnchorDeserialize)]
 pub struct RequestRandomnessParams {
     pub permission_bump: u8,
     pub switchboard_state_bump: u8,

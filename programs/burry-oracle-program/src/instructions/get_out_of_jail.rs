@@ -5,9 +5,9 @@ pub fn handler(ctx: Context<RequestRandomness>, request_params: RequestRandomnes
     let vrf_state = ctx.accounts.vrf_state.load()?;
     
     let bump = vrf_state.bump.clone();
-    let max_result = vrf_state.max_result;
     drop(vrf_state);
 
+	// build vrf request struct from the Switchboard Rust crate
     let vrf_request_randomness = VrfRequestRandomness {
         authority: ctx.accounts.vrf_state.to_account_info(),
         vrf: ctx.accounts.vrf.to_account_info(),
@@ -23,6 +23,7 @@ pub fn handler(ctx: Context<RequestRandomness>, request_params: RequestRandomnes
         token_program: ctx.accounts.token_program.to_account_info(),
     };
 
+    // pda signature seeds
     let vrf_key = ctx.accounts.vrf.key();
     let escrow_key = ctx.accounts.escrow_account.key();
     let user_key = ctx.accounts.user.key();
@@ -34,6 +35,7 @@ pub fn handler(ctx: Context<RequestRandomness>, request_params: RequestRandomnes
         &[bump],
     ]];
 
+	// submit vrf request with PDA signature
     msg!("requesting randomness");
     vrf_request_randomness.invoke_signed(
         switchboard_program,
@@ -41,12 +43,6 @@ pub fn handler(ctx: Context<RequestRandomness>, request_params: RequestRandomnes
         request_params.permission_bump,
         state_seeds,
     )?;
-
-    emit!(RandomnessRequested{
-        vrf_client: ctx.accounts.vrf_state.key(),
-        max_result: max_result,
-        timestamp: clock::Clock::get().unwrap().unix_timestamp
-    });
 
     msg!("randomness requested successfully");
 
