@@ -1,10 +1,7 @@
 use crate::*;
 
-pub fn handler(ctx: Context<InitVrfClient>, vrf_params: InitVrfClientParams) -> Result<()> {
+pub fn handler(ctx: Context<InitVrfClient>) -> Result<()> {
     msg!("init_client validate");
-    if vrf_params.max_result > 3 {
-        return Err(error!(EscrowErrorCode::MaxResultExceedsMaximum));
-    }
 
     let mut vrf_state = ctx.accounts.vrf_state.load_init()?;
     *vrf_state = VrfClientState::default();
@@ -13,19 +10,8 @@ pub fn handler(ctx: Context<InitVrfClient>, vrf_params: InitVrfClientParams) -> 
     vrf_state.escrow = ctx.accounts.escrow_account.key();
     vrf_state.die_result_1 = 0;
     vrf_state.die_result_2 = 0;
+    vrf_state.max_result = 6;
     vrf_state.num_rolls = 0;
-
-    if vrf_params.max_result == 0 {
-        vrf_state.max_result = 3;
-    } else {
-        vrf_state.max_result = vrf_params.max_result;
-    }
-
-    emit!(VrfClientCreated{
-        vrf_client: ctx.accounts.vrf_state.key(),
-        max_result: vrf_params.max_result,
-        timestamp: clock::Clock::get().unwrap().unix_timestamp
-    });
 
     drop(vrf_state);
 
@@ -33,7 +19,6 @@ pub fn handler(ctx: Context<InitVrfClient>, vrf_params: InitVrfClientParams) -> 
 }
 
 #[derive(Accounts)]
-#[instruction(vrf_params: InitVrfClientParams)]
 pub struct InitVrfClient<'info> {
     #[account(mut)]
     pub user: Signer<'info>,

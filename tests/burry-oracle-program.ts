@@ -448,9 +448,7 @@ describe("burry-oracle-program", async () => {
 
     // initialize vrf client
     try {
-      const tx = await program.methods.initVrfClient(
-        {maxResult: new anchor.BN(3)}
-      )
+      const tx = await program.methods.initVrfClient()
       .accounts({
         user: payer.publicKey,
         escrowAccount: escrowState,

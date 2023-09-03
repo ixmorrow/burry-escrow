@@ -23,8 +23,7 @@ pub fn handler(ctx: Context<ConsumeRandomness>) -> Result <()> {
     msg!("u128 buffer {:?}", value);
     let dice_1 = value[0] % max_result as u128 + 1;
     let dice_2 = value[1] % max_result as u128 + 1;
-    // let result = value[0] % max_result as u128 + 1;
-    // msg!("Current VRF Value [1 - {}) = {}!", max_result, result);
+
     msg!("Current Die 1 Value [1 - {}) = {}!", max_result, dice_1);
     msg!("Current Die 2 Value [1 - {}) = {}!", max_result, dice_2);
     msg!("Roll total: {}", dice_1 + dice_2);
@@ -36,16 +35,6 @@ pub fn handler(ctx: Context<ConsumeRandomness>) -> Result <()> {
     vrf_state.die_result_2 = dice_2;
     vrf_state.timestamp = clock::Clock::get().unwrap().unix_timestamp;
     vrf_state.roll_total = dice_1 + dice_2;
-
-    emit!(VrfClientUpdated {
-        vrf_client: ctx.accounts.vrf_state.key(),
-        max_result: vrf_state.max_result,
-        die_result_1: vrf_state.die_result_1,
-        die_result_2: vrf_state.die_result_2,
-        roll_total: vrf_state.roll_total,
-        result_buffer: result_buffer,
-        timestamp: vrf_state.timestamp,
-    });
 
     if dice_1 == dice_2 {
         msg!("Rolled snake eyes, get out of jail free!");
@@ -59,15 +48,8 @@ pub fn handler(ctx: Context<ConsumeRandomness>) -> Result <()> {
 
 #[derive(Accounts)]
 pub struct ConsumeRandomness<'info> {
-    /// CHECK: 
-    // #[account(mut)]
-    // pub user: AccountInfo<'info>,
     // burry escrow account
-    #[account(
-        mut,
-        // seeds = [user.key().as_ref(), ESCROW_SEED.as_bytes()],
-        // bump,
-    )]
+    #[account(mut)]
     pub escrow_account: Account<'info, EscrowState>,
     // vrf client state
     #[account(mut)]

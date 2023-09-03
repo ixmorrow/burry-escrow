@@ -9,7 +9,6 @@ pub fn handler(ctx: Context<RequestRandomness>, request_params: RequestRandomnes
     }
     
     let bump = vrf_state.bump.clone();
-    let max_result = vrf_state.max_result;
     vrf_state.num_rolls += 1;
     drop(vrf_state);
 
@@ -46,12 +45,6 @@ pub fn handler(ctx: Context<RequestRandomness>, request_params: RequestRandomnes
         request_params.permission_bump,
         state_seeds,
     )?;
-
-    emit!(RandomnessRequested{
-        vrf_client: ctx.accounts.vrf_state.key(),
-        max_result: max_result,
-        timestamp: clock::Clock::get().unwrap().unix_timestamp
-    });
 
     msg!("randomness requested successfully");
 
