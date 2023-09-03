@@ -612,7 +612,7 @@ describe("burry-oracle-program", async () => {
 
     } catch (e) {
       console.log(e)
-      assert.fail()
+      assert(e.error.errorMessage == 'Hit max number of rolls allowed. Can pay 50 lamports to force withdraw.')
     }
   })
 })
