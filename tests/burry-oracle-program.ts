@@ -25,6 +25,8 @@ describe("burry-oracle-program", async () => {
   const vrfSecret = anchor.web3.Keypair.generate()
   const vrfIxCoder = new anchor.BorshInstructionCoder(program.idl)
 
+  // LOCAL NET ORACLE, ONLY NEEDED FOR VRF INTEGRATION //
+  /*
   before(async () => {
     switchboard = await SwitchboardTestContext.loadFromProvider(provider, {
       name: "Test Queue",
@@ -75,6 +77,7 @@ describe("burry-oracle-program", async () => {
   after(() => {
     oracle?.stop()
   })
+  */
 
   it("Create Burry Escrow", async () => {
     // fetch switchboard devnet program object
@@ -160,7 +163,7 @@ describe("burry-oracle-program", async () => {
     } catch (e) {
       // verify tx returns expected error
       console.log(e.error.errorMessage)
-      assert(e.error.errorMessage == 'Current SOL price is not above Escrow unlock price.')
+      assert(e.error.errorMessage == 'Invalid withdrawal request')
     }
   })
 

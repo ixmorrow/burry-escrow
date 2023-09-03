@@ -1,7 +1,5 @@
-use {
-    anchor_lang::prelude::*,
-    solana_program::{pubkey, pubkey::Pubkey}
-};
+use crate::*;
+
 
 #[account]
 pub struct EscrowState {

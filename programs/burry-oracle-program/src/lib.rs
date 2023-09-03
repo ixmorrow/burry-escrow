@@ -2,8 +2,16 @@ pub mod instructions;
 pub mod state;
 pub mod errors;
 
-use {anchor_lang::prelude::*, instructions::*, state::*};
-
+pub use {
+    anchor_lang::prelude::*,
+    anchor_lang::solana_program::{pubkey::Pubkey, pubkey, clock},
+    switchboard_v2::{AggregatorAccountData, SwitchboardDecimal, OracleQueueAccountData, SbState},
+    anchor_spl::token::{Token, TokenAccount},
+    std::convert::TryInto,
+    state::*,
+    instructions::*,
+    errors::*
+};
 
 declare_id!("3yU8tgZeBoaTfcqReY6LeDQcekMAnQ1DiwKvmxKPUncb");
 

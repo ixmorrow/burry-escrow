@@ -1,11 +1,5 @@
-use {
-    crate::{state::*, errors::*},
-    anchor_lang::prelude::*,
-    anchor_lang::solana_program::clock,
-    std::convert::TryInto,
-    switchboard_v2::{AggregatorAccountData, SwitchboardDecimal},
-    solana_program::{pubkey::Pubkey}
-};
+use crate::*;
+
 
 pub fn handler(ctx: Context<Withdraw>, params: ReadResultParams) -> Result<()> {
     let feed = &ctx.accounts.feed_aggregator.load()?;
@@ -46,6 +40,8 @@ pub fn handler(ctx: Context<Withdraw>, params: ReadResultParams) -> Result<()> {
             .lamports()
             .checked_add(escrow_state.escrow_amt)
             .ok_or(ProgramError::InvalidArgument)?;
+    } else {
+        return Err(error!(EscrowErrorCode::InvalidWithdrawalRequest));
     }
 
     Ok(())

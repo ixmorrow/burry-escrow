@@ -1,7 +1,5 @@
-use {
-    crate::{state::*, errors::*},
-    anchor_lang::prelude::*
-};
+use crate::*;
+
 
 pub fn handler(ctx: Context<ClaimEscrowedFunds>) -> Result <()> {
 

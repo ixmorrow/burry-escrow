@@ -1,4 +1,4 @@
-use anchor_lang::prelude::*;
+use crate::*;
 
 #[error_code]
 #[derive(Eq, PartialEq)]
@@ -12,5 +12,7 @@ pub enum EscrowErrorCode {
     #[msg("Current SOL price is not above Escrow unlock price.")]
     SolPriceAboveUnlockPrice,
     #[msg("Feed account is not closed, must be closed to redeem with the withdraw_closed_feed_funds instruction.")]
-    FeedAccountIsNotClosed
+    FeedAccountIsNotClosed,
+    #[msg("Invalid withdrawal request")]
+    InvalidWithdrawalRequest
 }
